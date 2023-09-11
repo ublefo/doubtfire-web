@@ -2,21 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
+import API_URL from 'src/app/config/constants/apiURL';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NumbasService {
-  private readonly API_URL = 'http://localhost:3000/api/numbas_api';
+  private readonly API_URL = `${API_URL}/numbas_api`;
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Fetches a specified resource for a given unit and task.
+   *
+   * @param unitId - The ID of the unit
+   * @param taskId - The ID of the task
+   * @param resourcePath - Path to the desired resource
+   * @returns An Observable with the Blob of the fetched resource
+   */
   fetchResource(unitId: string, taskId: string, resourcePath: string): Observable<any> {
     const resourceUrl = `${this.API_URL}/${unitId}/${taskId}/${resourcePath}`;
     const resourceMimeType = this.getMimeType(resourcePath);
 
     return this.http.get(resourceUrl, { responseType: 'blob' }).pipe(
-      retry(3),  // Retrying up to 3 times before failing
+      retry(3),
       map((blob) => new Blob([blob], { type: resourceMimeType })),
       catchError((error: HttpErrorResponse) => {
         console.error('Error fetching Numbas resource:', error);
@@ -25,6 +34,12 @@ export class NumbasService {
     );
   }
 
+  /**
+   * Determines the MIME type of a resource based on its extension.
+   *
+   * @param resourcePath - Path of the resource
+   * @returns MIME type string corresponding to the resource's extension
+   */
   getMimeType(resourcePath: string): string {
     const extension = resourcePath.split('.').pop()?.toLowerCase();
     const mimeTypeMap: { [key: string]: string } = {
@@ -40,6 +55,15 @@ export class NumbasService {
 
     return mimeTypeMap[extension || ''] || 'text/plain';
   }
+
+  /**
+   * Uploads a Numbas test file for a given unit and task.
+   *
+   * @param unitId - The ID of the unit
+   * @param taskId - The ID of the task
+   * @param file - File object representing the Numbas test to be uploaded
+   * @returns An Observable with the response from the server
+   */
   uploadTest(unitId: string, taskId: string, file: File): Observable<any> {
     const uploadUrl = `${this.API_URL}/uploadNumbasTest`;
     const formData = new FormData();
@@ -50,7 +74,6 @@ export class NumbasService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        // You might need to set some headers here depending on your backend requirements
         'Accept': 'application/json'
       })
     };
