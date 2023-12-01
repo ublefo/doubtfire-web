@@ -40,6 +40,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UIRouterUpgradeModule } from '@uirouter/angular-hybrid';
+import { MatDialogModule as MatDialogModuleNew } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/common/services/alert.service';
 
 import { setTheme } from 'ngx-bootstrap/utils';
@@ -207,7 +208,10 @@ import { TaskDefinitionOverseerComponent } from './units/states/edit/directives/
 import { UnitAnalyticsComponent } from './units/states/analytics/unit-analytics-route.component';
 import { FileDropComponent } from './common/file-drop/file-drop.component';
 import { UnitTaskEditorComponent } from './units/states/edit/directives/unit-tasks-editor/unit-task-editor.component';
+import { FUsersComponent } from './admin/states/f-users/f-users.component';
 
+import { CreateNewUnitModal } from './admin/modals/create-new-unit-modal/create-new-unit-modal.component';
+import { CreateNewUnitModalContentComponent } from './admin/modals/create-new-unit-modal/create-new-unit-modal-content.component';
 // Note we need a separate function as it's required
 // by the AOT compiler.
 export function playerFactory() {
@@ -220,6 +224,11 @@ import {
 import { AcceptEulaComponent } from './eula/accept-eula/accept-eula.component';
 import { TiiActionLogComponent } from './admin/tii-action-log/tii-action-log.component';
 import { TiiActionService } from './api/services/tii-action.service';
+import { FUnitsComponent } from './admin/states/f-units/f-units.component';
+import { FUnitTaskListComponent } from './units/states/tasks/viewer/directives/f-unit-task-list/f-unit-task-list.component';
+import { FTaskDetailsViewComponent } from './units/states/tasks/viewer/directives/f-task-details-view/f-task-details-view.component';
+import { FTaskSheetViewComponent } from './units/states/tasks/viewer/directives/f-task-sheet-view/f-task-sheet-view.component';
+import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-viewer.component';
 
 @NgModule({
   // Components we declare
@@ -305,11 +314,19 @@ import { TiiActionService } from './api/services/tii-action.service';
     InboxComponent,
     ProjectProgressBarComponent,
     TeachingPeriodListComponent,
+    CreateNewUnitModal,
+    CreateNewUnitModalContentComponent,
     TiiActionLogComponent,
     FChipComponent,
     NewTeachingPeriodDialogComponent,
     FileViewerComponent,
     AlertComponent,
+    FUnitTaskListComponent,
+    FTaskDetailsViewComponent,
+    FTaskSheetViewComponent,
+    TasksViewerComponent,
+    FUsersComponent,
+    FUnitsComponent,
   ],
   // Module Imports
   imports: [
@@ -370,6 +387,9 @@ import { TiiActionService } from './api/services/tii-action.service';
       enabled: environment.production,
       registrationStrategy: () => interval(6000).pipe(take(1)),
     }),
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModuleNew,
   ],
   // Services we provide
   providers: [
@@ -439,6 +459,7 @@ import { TiiActionService } from './api/services/tii-action.service';
     TasksInTutorialsPipe,
     TasksForInboxSearchPipe,
     IsActiveUnitRole,
+    CreateNewUnitModal,
   ],
 })
 
