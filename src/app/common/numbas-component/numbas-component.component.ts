@@ -1,0 +1,77 @@
+import { Component, OnInit } from '@angular/core';
+import { NumbasService } from 'src/app/api/services/numbas.service';
+import { NumbasLmsService } from 'src/app/api/services/numbas-lms.service';
+
+declare global {
+  interface Window { API_1484_11: any; }
+}
+
+@Component({
+  selector: 'numbas-component',
+  templateUrl: './numbas-component.component.html'
+})
+export class NumbasComponent implements OnInit {
+  currentMode: 'attempt' | 'review' = 'attempt';
+  constructor(
+    private numbasService: NumbasService,
+    private lmsService: NumbasLmsService
+  ) {}
+
+  ngOnInit(): void {
+    this.interceptIframeRequests();
+
+    window.API_1484_11 =  {
+      Initialize: () => this.lmsService.Initialize(this.currentMode),
+      Terminate: () => this.lmsService.Terminate(),
+      GetValue: (element: string) => this.lmsService.GetValue(element),
+      SetValue: (element: string, value: string) => this.lmsService.SetValue(element, value),
+      Commit: () => this.lmsService.Commit(),
+      GetLastError: () => this.lmsService.GetLastError(),
+      GetErrorString: (errorCode: string) => this.lmsService.GetErrorString(errorCode),
+      GetDiagnostic: (errorCode: string) => this.lmsService.GetDiagnostic(errorCode)
+    };
+  }
+
+  launchNumbasTest(mode: 'attempt' | 'review' = 'attempt'): void {
+    this.currentMode = mode;
+    const iframe = document.createElement('iframe');
+    iframe.src = 'http://localhost:4201/api/numbas_api/index.html';
+    iframe.style.width = '100%';
+    iframe.style.height = '800px';
+    document.body.appendChild(iframe);
+  }
+  setReviewMode(): void {
+    this.reviewTest();
+  }
+
+  removeNumbasTest(): void {
+    const iframe = document.getElementsByTagName('iframe')[0];
+    iframe?.parentNode?.removeChild(iframe);
+  }
+  reviewTest(): void {
+    this.launchNumbasTest('review');
+  }
+
+  interceptIframeRequests(): void {
+    const originalOpen = XMLHttpRequest.prototype.open;
+    const numbasService = this.numbasService;
+    XMLHttpRequest.prototype.open = function (this: XMLHttpRequest, method: string, url: string | URL, async: boolean = true, username?: string | null, password?: string | null) {
+      if (typeof url === 'string' && url.startsWith('/api/numbas_api/')) {
+        const resourcePath = url.replace('/api/numbas_api/', '');
+        this.abort();
+        numbasService.fetchResource('1', '1', resourcePath).subscribe(
+          (resourceData) => {
+            if (this.onload) {
+              this.onload.call(this, resourceData);
+            }
+          },
+          (error) => {
+            console.error('Error fetching Numbas resource:', error);
+          }
+        );
+      } else {
+        originalOpen.call(this, method, url, async, username, password);
+      }
+    };
+  }
+}
