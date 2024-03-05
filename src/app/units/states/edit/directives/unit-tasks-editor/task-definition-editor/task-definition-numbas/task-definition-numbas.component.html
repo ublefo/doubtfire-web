@@ -1,0 +1,18 @@
+<div class="basis-1/2 flex flex-col">
+  <f-file-drop
+    mode="event"
+    (filesDropped)="uploadNumbasTest($event)"
+    accept="application/zip"
+    [desiredFileName]="'Numbas zip'"
+  />
+  @if (taskDefinition.hasNumbasTest) {
+    <div class="flex flex-row gap-4 pt-4">
+      <button mat-flat-button color="warn" (click)="removeNumbasTest()" class="flex-grow me-4">
+        Delete Numbas Zip
+      </button>
+      <button mat-flat-button color="accent" (click)="downloadNumbasTest()" class="flex-grow ms-4">
+        Download Numbas Zip
+      </button>
+    </div>
+  }
+</div>
