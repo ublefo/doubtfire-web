@@ -31,7 +31,12 @@ export class TaskDefinition extends Entity {
   groupSet: GroupSet = null;
   hasTaskSheet: boolean;
   hasTaskResources: boolean;
-  hasNumbasTest: boolean;
+  hasEnabledNumbasTest: boolean;
+  hasUploadedNumbasTest: boolean;
+  hasUnlimitedRetriesForNumbas: boolean;
+  hasTimeDelayForNumbas: boolean;
+  isNumbasRestrictedTo1Attempt: boolean;
+  numbasTimeDelay: string = 'no delay';
   hasTaskAssessmentResources: boolean;
   isGraded: boolean;
   maxQualityPts: number;
@@ -212,7 +217,7 @@ export class TaskDefinition extends Entity {
 
   public deleteNumbasTest(): Observable<any> {
     const httpClient = AppInjector.get(HttpClient);
-    return httpClient.delete(this.numbasTestUploadUrl).pipe(tap(() => (this.hasNumbasTest = false)));
+    return httpClient.delete(this.numbasTestUploadUrl).pipe(tap(() => (this.hasUploadedNumbasTest = false)));
   }
 
   public deleteTaskAssessmentResources(): Observable<any> {

@@ -1,18 +1,44 @@
-<div class="basis-1/2 flex flex-col">
-  <f-file-drop
-    mode="event"
-    (filesDropped)="uploadNumbasTest($event)"
-    accept="application/zip"
-    [desiredFileName]="'Numbas zip'"
-  />
-  @if (taskDefinition.hasNumbasTest) {
-    <div class="flex flex-row gap-4 pt-4">
-      <button mat-flat-button color="warn" (click)="removeNumbasTest()" class="flex-grow me-4">
-        Delete Numbas Zip
-      </button>
-      <button mat-flat-button color="accent" (click)="downloadNumbasTest()" class="flex-grow ms-4">
-        Download Numbas Zip
-      </button>
-    </div>
+<div class="flex flex-col gap-4">
+  <mat-checkbox matInput required [(ngModel)]="taskDefinition.hasEnabledNumbasTest">
+    Enable Numbas Test
+  </mat-checkbox>
+
+  <div class="basis-1/2 flex flex-col">
+    <f-file-drop
+      mode="event"
+      (filesDropped)="uploadNumbasTest($event)"
+      accept="application/zip"
+      [desiredFileName]="'Numbas zip'"
+    />
+    @if (taskDefinition.hasUploadedNumbasTest) {
+      <div class="flex flex-row gap-4 pt-4">
+        <button mat-flat-button color="warn" (click)="removeNumbasTest()" class="flex-grow me-4">
+          Delete Numbas Zip
+        </button>
+        <button mat-flat-button color="accent" (click)="downloadNumbasTest()" class="flex-grow ms-4">
+          Download Numbas Zip
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="flex flex-row items-center">
+    <span> Select test rules: </span>
+    <mat-checkbox matInput [(ngModel)]="taskDefinition.hasUnlimitedRetriesForNumbas">Unlimited retries</mat-checkbox>
+    <mat-checkbox matInput [(ngModel)]="taskDefinition.hasTimeDelayForNumbas">Time delay</mat-checkbox>
+    <mat-checkbox matInput [(ngModel)]="taskDefinition.isNumbasRestrictedTo1Attempt">Restrict to 1 attempt</mat-checkbox>
+  </div>
+
+  @if (taskDefinition.hasTimeDelayForNumbas) {
+    <mat-form-field appearance="outline">
+      <mat-label>Time delay</mat-label>
+      <mat-select [(ngModel)]="taskDefinition.numbasTimeDelay">
+        <mat-option value="no delay">No delay</mat-option>
+        <mat-option value="30 min">30 min</mat-option>
+        <mat-option value="2 hours">2 hours</mat-option>
+        <mat-option value="1 day">1 day</mat-option>
+        <mat-option value="see tutor">See tutor</mat-option>
+      </mat-select>
+    </mat-form-field>
   }
 </div>

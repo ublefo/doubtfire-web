@@ -43,7 +43,7 @@ export class TaskDefinitionNumbasComponent {
       const file = validFiles[0];
       // Temporary until Numbas backend is fixed: save uploaded file to local Downloads folder
       this.saveZipFile(file);
-      this.taskDefinition.hasNumbasTest = true;
+      this.taskDefinition.hasUploadedNumbasTest = true;
       // this.taskDefinitionService.uploadNumbasTest(this.taskDefinition, file).subscribe({
       //   next: () => this.alerts.add('success', 'Uploaded Numbas test', 2000),
       //   error: (message) => this.alerts.add('danger', message, 6000),
