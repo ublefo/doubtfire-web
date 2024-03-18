@@ -62,10 +62,10 @@
   </div>
 
   <div class="w-full">
-    <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">Upload requirements</h3>
-    <p class="font-normal text-gray-700">What do students need to upload?</p>
+    <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">Task description and resources</h3>
+    <p class="font-normal text-gray-700">Upload task descriptions and resources</p>
     <div class="bg-white border border-gray-200 rounded-xl shadow p-6">
-      <f-task-definition-upload [taskDefinition]="taskDefinition"></f-task-definition-upload>
+      <f-task-definition-resources [taskDefinition]="taskDefinition"></f-task-definition-resources>
     </div>
   </div>
 </div>
@@ -80,10 +80,10 @@
   </div>
 
   <div class="w-full">
-    <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">Task description and resources</h3>
-    <p class="font-normal text-gray-700">Upload task descriptions and resources</p>
+    <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">Upload Numbas test</h3>
+    <p class="font-normal text-gray-700">Upload the corresponding Numbas test</p>
     <div class="bg-white border border-gray-200 rounded-xl shadow p-6">
-      <f-task-definition-resources [taskDefinition]="taskDefinition"></f-task-definition-resources>
+      <f-task-definition-numbas [taskDefinition]="taskDefinition"></f-task-definition-numbas>
     </div>
   </div>
 </div>
@@ -94,6 +94,24 @@
       class="font-bold text-formatif-blue text-3xl rounded-full bg-formatif-blue-lighter flex items-center justify-center w-16 h-16"
     >
       6
+    </div>
+  </div>
+
+  <div class="w-full">
+    <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900">Upload requirements</h3>
+    <p class="font-normal text-gray-700">What do students need to upload?</p>
+    <div class="bg-white border border-gray-200 rounded-xl shadow p-6">
+      <f-task-definition-upload [taskDefinition]="taskDefinition"></f-task-definition-upload>
+    </div>
+  </div>
+</div>
+
+<div class="flex mt-10">
+  <div class="mr-6">
+    <div
+      class="font-bold text-formatif-blue text-3xl rounded-full bg-formatif-blue-lighter flex items-center justify-center w-16 h-16"
+    >
+      7
     </div>
   </div>
 
@@ -111,7 +129,7 @@
     <div
       class="font-bold text-formatif-blue text-3xl rounded-full bg-formatif-blue-lighter flex items-center justify-center w-16 h-16"
     >
-      7
+      8
     </div>
   </div>
 

@@ -205,6 +205,7 @@ import { TaskDefinitionUploadComponent } from './units/states/edit/directives/un
 import { TaskDefinitionOptionsComponent } from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-options/task-definition-options.component';
 import { TaskDefinitionResourcesComponent } from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-resources/task-definition-resources.component';
 import { TaskDefinitionOverseerComponent } from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-overseer/task-definition-overseer.component';
+import { TaskDefinitionNumbasComponent } from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-numbas/task-definition-numbas.component';
 import { UnitAnalyticsComponent } from './units/states/analytics/unit-analytics-route.component';
 import { FileDropComponent } from './common/file-drop/file-drop.component';
 import { UnitTaskEditorComponent } from './units/states/edit/directives/unit-tasks-editor/unit-task-editor.component';
@@ -266,6 +267,7 @@ import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-vi
     TaskDefinitionOptionsComponent,
     TaskDefinitionResourcesComponent,
     TaskDefinitionOverseerComponent,
+    TaskDefinitionNumbasComponent,
     UnitAnalyticsComponent,
     StudentTutorialSelectComponent,
     StudentCampusSelectComponent,
