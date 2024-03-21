@@ -41,29 +41,13 @@ export class TaskDefinitionNumbasComponent {
     const validFiles = Array.from(files as ArrayLike<File>).filter((f) => f.type === 'application/zip');
     if (validFiles.length > 0) {
       const file = validFiles[0];
-      // Temporary until Numbas backend is fixed: save uploaded file to local Downloads folder
-      this.saveZipFile(file);
+      this.taskDefinitionService.uploadNumbasData(this.taskDefinition, file).subscribe({
+        next: () => this.alerts.add('success', 'Uploaded Numbas test data', 2000),
+        error: (message) => this.alerts.add('danger', message, 6000),
+      });
       this.taskDefinition.hasUploadedNumbasTest = true;
-      // this.taskDefinitionService.uploadNumbasTest(this.taskDefinition, file).subscribe({
-      //   next: () => this.alerts.add('success', 'Uploaded Numbas test', 2000),
-      //   error: (message) => this.alerts.add('danger', message, 6000),
-      // });
     } else {
-      this.alerts.add('danger', 'Please drop a ZIP to upload for this task', 6000);
+      this.alerts.add('danger', 'Please drop a zip file to upload Numbas test data for this task', 6000);
     }
-  }
-
-  private saveZipFile(zipData) {
-    const blob = new Blob([zipData], {type: 'application/zip'});
-
-    // Create an anchor element and set its href to the blob URL
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'numbas.zip';
-
-    // Append the link to the document, trigger the download, then remove the link
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
 }
