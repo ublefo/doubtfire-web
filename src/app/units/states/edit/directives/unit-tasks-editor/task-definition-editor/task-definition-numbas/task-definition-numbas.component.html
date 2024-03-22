@@ -10,7 +10,7 @@
       accept="application/zip"
       [desiredFileName]="'Numbas zip'"
     />
-    @if (taskDefinition.hasUploadedNumbasTest) {
+    @if (taskDefinition.hasNumbasData) {
       <div class="flex flex-row gap-4 pt-4">
         <button mat-flat-button color="warn" (click)="removeNumbasTest()" class="flex-grow me-4">
           Delete Numbas Zip

@@ -45,7 +45,6 @@ export class TaskDefinitionNumbasComponent {
         next: () => this.alerts.add('success', 'Uploaded Numbas test data', 2000),
         error: (message) => this.alerts.add('danger', message, 6000),
       });
-      this.taskDefinition.hasUploadedNumbasTest = true;
     } else {
       this.alerts.add('danger', 'Please drop a zip file to upload Numbas test data for this task', 6000);
     }
