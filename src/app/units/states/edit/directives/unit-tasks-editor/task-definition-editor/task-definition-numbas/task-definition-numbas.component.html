@@ -22,23 +22,25 @@
     }
   </div>
 
-  <div class="flex flex-row items-center">
-    <span> Select test rules: </span>
-    <mat-checkbox matInput [(ngModel)]="taskDefinition.hasUnlimitedRetriesForNumbas">Unlimited retries</mat-checkbox>
-    <mat-checkbox matInput [(ngModel)]="taskDefinition.hasTimeDelayForNumbas">Time delay</mat-checkbox>
-    <mat-checkbox matInput [(ngModel)]="taskDefinition.isNumbasRestrictedTo1Attempt">Restrict to 1 attempt</mat-checkbox>
-  </div>
+  @if (taskDefinition.hasEnabledNumbasTest) {
+    <div class="flex flex-row items-center">
+      <span> Select test rules: </span>
+      <mat-checkbox matInput [(ngModel)]="taskDefinition.hasUnlimitedRetriesForNumbas">Unlimited retries</mat-checkbox>
+      <mat-checkbox matInput [(ngModel)]="taskDefinition.hasTimeDelayForNumbas">Time delay</mat-checkbox>
+      <mat-checkbox matInput [(ngModel)]="taskDefinition.isNumbasRestrictedTo1Attempt">Restrict to 1 attempt</mat-checkbox>
+    </div>
 
-  @if (taskDefinition.hasTimeDelayForNumbas) {
-    <mat-form-field appearance="outline">
-      <mat-label>Time delay</mat-label>
-      <mat-select [(ngModel)]="taskDefinition.numbasTimeDelay">
-        <mat-option value="no delay">No delay</mat-option>
-        <mat-option value="30 min">30 min</mat-option>
-        <mat-option value="2 hours">2 hours</mat-option>
-        <mat-option value="1 day">1 day</mat-option>
-        <mat-option value="see tutor">See tutor</mat-option>
-      </mat-select>
-    </mat-form-field>
+    @if (taskDefinition.hasTimeDelayForNumbas) {
+      <mat-form-field appearance="outline">
+        <mat-label>Time delay</mat-label>
+        <mat-select [(ngModel)]="taskDefinition.numbasTimeDelay">
+          <mat-option value="no delay">No delay</mat-option>
+          <mat-option value="30 min">30 min</mat-option>
+          <mat-option value="2 hours">2 hours</mat-option>
+          <mat-option value="1 day">1 day</mat-option>
+          <mat-option value="see tutor">See tutor</mat-option>
+        </mat-select>
+      </mat-form-field>
+    }
   }
 </div>
