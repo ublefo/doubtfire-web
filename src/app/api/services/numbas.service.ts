@@ -55,35 +55,4 @@ export class NumbasService {
 
     return mimeTypeMap[extension || ''] || 'text/plain';
   }
-
-  /**
-   * Uploads a Numbas test file for a given unit and task.
-   *
-   * @param unitId - The ID of the unit
-   * @param taskId - The ID of the task
-   * @param file - File object representing the Numbas test to be uploaded
-   * @returns An Observable with the response from the server
-   */
-  uploadTest(unitId: string, taskId: string, file: File): Observable<any> {
-    const uploadUrl = `${this.API_URL}/uploadNumbasTest`;
-    const formData = new FormData();
-
-    formData.append('file', file);
-    formData.append('unit_code', unitId);
-    formData.append('task_definition_id', taskId);
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json'
-      })
-    };
-
-    return this.http.post(uploadUrl, formData, httpOptions).pipe(
-      retry(3),
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error uploading Numbas test:', error);
-        return throwError('Error uploading Numbas test.');
-      })
-    );
-  }
 }
