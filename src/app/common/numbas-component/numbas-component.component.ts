@@ -7,7 +7,7 @@ declare global {
 }
 
 @Component({
-  selector: 'numbas-component',
+  selector: 'f-numbas-component',
   templateUrl: './numbas-component.component.html'
 })
 export class NumbasComponent implements OnInit {

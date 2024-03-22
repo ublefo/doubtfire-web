@@ -43,6 +43,24 @@
         </group-member-contribution-assigner><!--/group-member-contribution-->
       </div><!--/card-group-->
     </div><!--/state-group-->
+    <div
+      class="state state-numbas"
+      ng-class="{'state-hidden-left': isHidden('numbas').left,
+                 'state-hidden-right': isHidden('numbas').right}">
+      <div class="card card-default">
+        <div class="card-heading">
+          <h4>
+            Attempt Numbas Test
+          </h4>
+          <span ng-hide="submissionType == 'need_help'">
+            Complete the Numbas test first to proceed to upload evidence of your task completion.
+          </span>
+        </div>
+        <div class="card-body">
+          <f-numbas-component></f-numbas-component>
+        </div>
+      </div>
+    </div>
     <div class="state state-files" ng-class="{'state-hidden-left': isHidden('files').left,
                  'state-hidden-right': isHidden('files').right,
                  'state-files-uploading': uploader.isUploading}">
