@@ -230,6 +230,9 @@ import { FUnitTaskListComponent } from './units/states/tasks/viewer/directives/f
 import { FTaskDetailsViewComponent } from './units/states/tasks/viewer/directives/f-task-details-view/f-task-details-view.component';
 import { FTaskSheetViewComponent } from './units/states/tasks/viewer/directives/f-task-sheet-view/f-task-sheet-view.component';
 import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-viewer.component';
+import { NumbasComponent } from './common/numbas-component/numbas-component.component';
+import { NumbasService } from './api/services/numbas.service';
+import { NumbasLmsService } from './api/services/numbas-lms.service';
 
 @NgModule({
   // Components we declare
@@ -329,6 +332,7 @@ import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-vi
     TasksViewerComponent,
     FUsersComponent,
     FUnitsComponent,
+    NumbasComponent,
   ],
   // Module Imports
   imports: [
@@ -462,6 +466,8 @@ import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-vi
     TasksForInboxSearchPipe,
     IsActiveUnitRole,
     CreateNewUnitModal,
+    NumbasService,
+    NumbasLmsService,
   ],
 })
 
