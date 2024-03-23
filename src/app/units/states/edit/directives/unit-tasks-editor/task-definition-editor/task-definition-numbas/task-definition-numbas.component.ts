@@ -1,4 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { alertService } from 'src/app/ajs-upgraded-providers';
 import { TaskDefinition } from 'src/app/api/models/task-definition';
 import { Unit } from 'src/app/api/models/unit';
@@ -18,6 +19,8 @@ export class TaskDefinitionNumbasComponent {
     @Inject(alertService) private alerts: any,
     private taskDefinitionService: TaskDefinitionService
   ) {}
+
+  public scoreControl = new FormControl('', [Validators.max(100), Validators.min(0)]);
 
   public get unit(): Unit {
     return this.taskDefinition?.unit;
@@ -45,7 +48,6 @@ export class TaskDefinitionNumbasComponent {
         next: () => this.alerts.add('success', 'Uploaded Numbas test data', 2000),
         error: (message) => this.alerts.add('danger', message, 6000),
       });
-      this.taskDefinition.hasUploadedNumbasTest = true;
     } else {
       this.alerts.add('danger', 'Please drop a zip file to upload Numbas test data for this task', 6000);
     }
