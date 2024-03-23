@@ -35,14 +35,14 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" class="basis-1/2">
-        <mat-label>Attempt Limit</mat-label>
+        <mat-label>Attempt limit</mat-label>
         <input
           matInput
           min="0"
           max="100"
           type="number"
-          [(value)]="taskDefinition.numbasAttemptLimit"
-          [formControl]="scoreControl"
+          [(ngModel)]="taskDefinition.numbasAttemptLimit"
+          [formControl]="attemptLimitControl"
         />
       </mat-form-field>
     </div>
