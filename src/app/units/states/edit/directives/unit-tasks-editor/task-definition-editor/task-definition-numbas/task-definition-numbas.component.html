@@ -24,16 +24,9 @@
 
   @if (taskDefinition.hasEnabledNumbasTest) {
     <div class="flex-grow flex flex-row gap-4 pt-4">
-      <mat-form-field appearance="outline" class="basis-1/2">
-        <mat-label>Time delay</mat-label>
-        <mat-select [(ngModel)]="taskDefinition.numbasTimeDelay">
-          <mat-option value="no delay">No delay</mat-option>
-          <mat-option value="30 min">30 min</mat-option>
-          <mat-option value="2 hours">2 hours</mat-option>
-          <mat-option value="1 day">1 day</mat-option>
-          <mat-option value="see tutor">See tutor</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <mat-checkbox class="basis-1/2" matInput required [(ngModel)]="taskDefinition.hasNumbasTimeDelay">
+        Enable incremental time delays between test attempts
+      </mat-checkbox>
       <mat-form-field appearance="outline" class="basis-1/2">
         <mat-label>Attempt limit</mat-label>
         <input

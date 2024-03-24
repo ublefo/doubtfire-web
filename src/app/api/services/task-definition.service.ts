@@ -105,7 +105,7 @@ export class TaskDefinitionService extends CachedEntityService<TaskDefinition> {
       'hasTaskAssessmentResources',
       'hasEnabledNumbasTest',
       'hasNumbasData',
-      'numbasTimeDelay',
+      'hasNumbasTimeDelay',
       'numbasAttemptLimit',
       'isGraded',
       'maxQualityPts',
