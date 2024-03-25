@@ -20,7 +20,7 @@ export class TaskDefinitionNumbasComponent {
     private taskDefinitionService: TaskDefinitionService
   ) {}
 
-  public scoreControl = new FormControl('', [Validators.max(100), Validators.min(0)]);
+  public attemptLimitControl = new FormControl('', [Validators.max(100), Validators.min(0)]);
 
   public get unit(): Unit {
     return this.taskDefinition?.unit;

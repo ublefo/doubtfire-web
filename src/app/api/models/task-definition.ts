@@ -33,7 +33,7 @@ export class TaskDefinition extends Entity {
   hasTaskResources: boolean;
   hasEnabledNumbasTest: boolean;
   hasNumbasData: boolean;
-  numbasTimeDelay: string = 'no delay';
+  hasNumbasTimeDelay: boolean;
   numbasAttemptLimit: number = 0;
   hasTaskAssessmentResources: boolean;
   isGraded: boolean;
