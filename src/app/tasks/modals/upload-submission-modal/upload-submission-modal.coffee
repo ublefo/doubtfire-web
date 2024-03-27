@@ -128,6 +128,7 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
       removed.push('group') if !isRFF || !task.isGroupTask()
       removed.push('alignment') if !isRFF || !task.unit.ilos.length > 0
       removed.push('comments') if isTestSubmission
+      removed.push('numbas') if !task.definition.hasEnabledNumbasTest
       removed
     # Initialises the states
     initialise: ->

@@ -241,6 +241,8 @@ import { FTaskSheetViewComponent } from './units/states/tasks/viewer/directives/
 import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-viewer.component';
 
 import { FUnitsComponent } from './admin/states/f-units/f-units.component';
+import { NumbasComponent } from './common/numbas-component/numbas-component.component';
+
 export const DoubtfireAngularJSModule = angular.module('doubtfire', [
   'doubtfire.config',
   'doubtfire.sessions',
@@ -374,6 +376,8 @@ DoubtfireAngularJSModule.directive(
   downgradeComponent({ component: TaskSubmissionHistoryComponent }),
 );
 DoubtfireAngularJSModule.directive('fUnits', downgradeComponent({ component: FUnitsComponent }));
+
+DoubtfireAngularJSModule.directive('fNumbasComponent', downgradeComponent({ component: NumbasComponent }));
 
 // Global configuration
 DoubtfireAngularJSModule.directive(
