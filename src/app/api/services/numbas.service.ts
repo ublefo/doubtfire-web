@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import API_URL from 'src/app/config/constants/apiURL';
@@ -8,20 +8,18 @@ import API_URL from 'src/app/config/constants/apiURL';
   providedIn: 'root'
 })
 export class NumbasService {
-  private readonly API_URL = `${API_URL}/numbas_api`;
-
   constructor(private http: HttpClient) {}
 
   /**
    * Fetches a specified resource for a given unit and task.
    *
    * @param unitId - The ID of the unit
-   * @param taskId - The ID of the task
+   * @param taskDefId - The ID of the task definition
    * @param resourcePath - Path to the desired resource
    * @returns An Observable with the Blob of the fetched resource
    */
-  fetchResource(unitId: string, taskId: string, resourcePath: string): Observable<any> {
-    const resourceUrl = `${this.API_URL}/${unitId}/${taskId}/${resourcePath}`;
+  fetchResource(unitId: number, taskDefId: number, resourcePath: string): Observable<any> {
+    const resourceUrl = `${API_URL}/units/${unitId}/task_definitions/${taskDefId}/numbas_data/${resourcePath}`;
     const resourceMimeType = this.getMimeType(resourcePath);
 
     return this.http.get(resourceUrl, { responseType: 'blob' }).pipe(

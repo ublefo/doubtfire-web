@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { TaskService } from './task.service';
 import { UserService } from './user.service';
 import API_URL from 'src/app/config/constants/apiURL';
+import { Task } from '../models/task';
 
 declare let pipwerks: any;
 
@@ -12,7 +13,7 @@ declare let pipwerks: any;
 })
 export class NumbasLmsService {
 
-  private readonly apiBaseUrl = `${API_URL}/savetests`;;
+  private readonly apiBaseUrl = `${API_URL}/test_attempts`;
 
   private defaultValues: { [key: string]: string } = {
     'cmi.completion_status': 'not attempted',
@@ -22,7 +23,6 @@ export class NumbasLmsService {
     'cmi.mode': 'normal',
     'cmi.undefinedlearner_response': '1',
     'cmi.undefinedresult' : '0'
-
   };
 
   private testId: number = 0;
@@ -41,10 +41,14 @@ export class NumbasLmsService {
     private http: HttpClient,
     private taskService: TaskService,
     private userService: UserService
-) {
+  ) {
     pipwerks.SCORM.version = "2004";
     console.log(`SCORM version is set to: ${pipwerks.SCORM.version}`);
     this.learnerId = this.userService.currentUser.studentId;
+  }
+
+  setTask(task: Task) {
+    this.taskId = task.id;
   }
 
   getDefaultDataStore() {
@@ -63,40 +67,39 @@ export class NumbasLmsService {
     if (mode === 'review') {
       this.SetValue('cmi.mode', 'review');
 
-      xhr.open("GET", `${this.apiBaseUrl}/completed-latest`, false);
+      xhr.open("GET", `${this.apiBaseUrl}/completed-latest?task_id=${this.taskId}`, false);
       xhr.send();
       console.log(xhr.responseText);
 
       if (xhr.status !== 200) {
-          console.error('Error fetching latest completed test result:', xhr.statusText);
-          return 'false';
+        console.error('Error fetching latest completed test result:', xhr.statusText);
+        return 'false';
       }
 
       try {
-          const completedTest = JSON.parse(xhr.responseText);
-          const parsedExamData = JSON.parse(completedTest.data.exam_data || '{}');
+        const completedTest = JSON.parse(xhr.responseText);
+        const parsedExamData = JSON.parse(completedTest.data.exam_data || '{}');
 
-          // Set entire suspendData string to cmi.suspend_data
-          this.SetValue('cmi.suspend_data', JSON.stringify(parsedExamData));
+        // Set entire suspendData string to cmi.suspend_data
+        this.SetValue('cmi.suspend_data', JSON.stringify(parsedExamData));
 
-          // Use SetValue to set parsedExamData values to dataStore
-          Object.keys(parsedExamData).forEach(key => {
-            this.SetValue(key, parsedExamData[key]);
-          });
+        // Use SetValue to set parsedExamData values to dataStore
+        Object.keys(parsedExamData).forEach(key => {
+          this.SetValue(key, parsedExamData[key]);
+        });
 
-          this.SetValue('cmi.entry', 'RO');
-          this.SetValue('cmi.mode', 'review');
+        this.SetValue('cmi.entry', 'RO');
+        this.SetValue('cmi.mode', 'review');
 
-          console.log('Latest completed test data:', completedTest);
-          return 'true';
-
+        console.log('Latest completed test data:', completedTest);
+        return 'true';
       } catch (error) {
-          console.error('Error:', error);
-          return 'false';
+        console.error('Error:', error);
+        return 'false';
       }
     }
 
-    xhr.open("GET", `${this.apiBaseUrl}/latest`, false);
+    xhr.open("GET", `${this.apiBaseUrl}/latest?task_id=${this.taskId}`, false);
     xhr.send();
     console.log(xhr.responseText);
 
@@ -107,36 +110,34 @@ export class NumbasLmsService {
 
     let latestTest;
     try {
-        latestTest = JSON.parse(xhr.responseText);
-        console.log('Latest test result:', latestTest);
-        this.testId = latestTest.data.id;
+      latestTest = JSON.parse(xhr.responseText);
+      console.log('Latest test result:', latestTest);
+      this.testId = latestTest.data.id;
 
-        if (latestTest.data['cmi_entry'] === 'ab-initio') {
-            console.log("starting new test");
-            this.SetValue('cmi.learner_id', this.learnerId);
-            this.dataStore['name'] = examName;
-            this.dataStore['attempt_number'] = latestTest.data['attempt_number'];
-            console.log(this.dataStore);
+      if (latestTest.data['cmi_entry'] === 'ab-initio') {
+        console.log("starting new test");
+        this.SetValue('cmi.learner_id', this.learnerId);
+        this.dataStore['name'] = examName;
+        this.dataStore['attempt_number'] = latestTest.data['attempt_number'];
+        console.log(this.dataStore);
       } else if (latestTest.data['cmi_entry'] === 'resume') {
-            console.log("resuming test");
-            const parsedExamData = JSON.parse(latestTest.data.exam_data || '{}');
+        console.log("resuming test");
+        const parsedExamData = JSON.parse(latestTest.data.exam_data || '{}');
 
-            this.dataStore = JSON.parse(JSON.stringify(parsedExamData));
+        this.dataStore = JSON.parse(JSON.stringify(parsedExamData));
 
-            console.log(this.dataStore);
-        }
+        console.log(this.dataStore);
+      }
 
-        this.initializationComplete$.next(true);
+      this.initializationComplete$.next(true);
 
-        console.log("finished initlizing");
-        return 'true';
+      console.log("finished initlizing");
+      return 'true';
     } catch (error) {
-        console.error('Error:', error);
-        return 'false';
+      console.error('Error:', error);
+      return 'false';
     }
-}
-
-
+  }
 
   isTestCompleted(): boolean {
     return this.dataStore?.['completed'] || false;
@@ -193,43 +194,44 @@ export class NumbasLmsService {
     }
     return 'true';
   }
-//function to save the state of the exam.
-Commit(): string {
-  if (!this.initializationComplete$.getValue()) {
+
+  //function to save the state of the exam.
+  Commit(): string {
+    if (!this.initializationComplete$.getValue()) {
       console.warn('Initialization not complete. Cannot commit.');
       return 'false';
-  }
+    }
 
-  // Set cmi.entry to 'resume' before committing dataStore
-  this.dataStore['cmi.entry'] = 'resume';
-  if (!this.isTestCompleted()) {
-    this.dataStore['cmi.exit'] = 'suspend';
-  }
-  console.log("Committing dataStore:", this.dataStore);
+    // Set cmi.entry to 'resume' before committing dataStore
+    this.dataStore['cmi.entry'] = 'resume';
+    if (!this.isTestCompleted()) {
+      this.dataStore['cmi.exit'] = 'suspend';
+    }
+    console.log("Committing dataStore:", this.dataStore);
 
-  // Directly stringify the dataStore
-  const jsonData = JSON.stringify(this.dataStore);
+    // Directly stringify the dataStore
+    const jsonData = JSON.stringify(this.dataStore);
 
-  // Use XHR to send the request
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', `${this.apiBaseUrl}/${this.testId}/suspend`, true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
+    // Use XHR to send the request
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', `${this.apiBaseUrl}/${this.testId}/exam_data`, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
-  xhr.onload = () => {
+    xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 400) {
-          console.log('Suspend data saved successfully.');
+        console.log('Suspend data saved successfully.');
       } else {
-          console.error('Error saving suspend data:', xhr.responseText);
+        console.error('Error saving suspend data:', xhr.responseText);
       }
-  };
+    };
 
-  xhr.onerror = () => {
+    xhr.onerror = () => {
       console.error('Request failed.');
-  };
+    };
 
-  xhr.send(jsonData);
-  return 'true';
-}
+    xhr.send(jsonData);
+    return 'true';
+  }
 
   // Placeholder methods for SCORM error handling
   GetLastError(): string {
