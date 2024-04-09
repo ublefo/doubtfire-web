@@ -19,7 +19,7 @@ export class NumbasService {
    * @returns An Observable with the Blob of the fetched resource
    */
   fetchResource(unitId: number, taskDefId: number, resourcePath: string): Observable<any> {
-    const resourceUrl = `${API_URL}/units/${unitId}/task_definitions/${taskDefId}/numbas_data/${resourcePath}`;
+    const resourceUrl = `${API_URL}/numbas_api/${taskDefId}/numbas_data/${resourcePath}`;
     const resourceMimeType = this.getMimeType(resourcePath);
 
     return this.http.get(resourceUrl, { responseType: 'blob' }).pipe(
