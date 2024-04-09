@@ -6,8 +6,6 @@ import { UserService } from './user.service';
 import API_URL from 'src/app/config/constants/apiURL';
 import { Task } from '../models/task';
 
-declare let pipwerks: any;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -42,8 +40,6 @@ export class NumbasLmsService {
     private taskService: TaskService,
     private userService: UserService
   ) {
-    pipwerks.SCORM.version = "2004";
-    console.log(`SCORM version is set to: ${pipwerks.SCORM.version}`);
     this.learnerId = this.userService.currentUser.studentId;
   }
 

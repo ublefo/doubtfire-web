@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { Task } from 'src/app/api/models/task';
+import { TaskDefinition } from 'src/app/api/models/task-definition';
 import { Unit } from 'src/app/api/models/unit';
 import { NumbasLmsService } from 'src/app/api/services/numbas-lms.service';
 import { NumbasService } from 'src/app/api/services/numbas.service';
@@ -12,69 +13,51 @@ declare global {
   selector: 'f-numbas-component',
   templateUrl: './numbas-component.component.html'
 })
-export class NumbasComponent implements OnChanges {
+export class NumbasComponent implements OnInit {
   @Input() task: Task;
-  unit: Unit;
+  @Input() unit: Unit;
+  @Input() taskDef: TaskDefinition;
 
   currentMode: 'attempt' | 'review' = 'attempt';
 
   constructor(
     private numbasService: NumbasService,
-    private lmsService: NumbasLmsService
-  ) {}
+    private lmsService: NumbasLmsService,
+    private renderer: Renderer2
+  ) { }
 
-  ngOnChanges(): void {
-    if (this.task) {
-      this.lmsService.setTask(this.task);
-      this.unit = this.task.unit;
+  ngOnInit(): void {
+    this.interceptIframeRequests();
 
-      this.interceptIframeRequests();
-
-      window.API_1484_11 =  {
-        Initialize: () => this.lmsService.Initialize(this.currentMode),
-        Terminate: () => this.lmsService.Terminate(),
-        GetValue: (element: string) => this.lmsService.GetValue(element),
-        SetValue: (element: string, value: string) => this.lmsService.SetValue(element, value),
-        Commit: () => this.lmsService.Commit(),
-        GetLastError: () => this.lmsService.GetLastError(),
-        GetErrorString: (errorCode: string) => this.lmsService.GetErrorString(errorCode),
-        GetDiagnostic: (errorCode: string) => this.lmsService.GetDiagnostic(errorCode)
-      };
-    }
+    window.API_1484_11 =  {
+      Initialize: () => this.lmsService.Initialize(this.currentMode),
+      Terminate: () => this.lmsService.Terminate(),
+      GetValue: (element: string) => this.lmsService.GetValue(element),
+      SetValue: (element: string, value: string) => this.lmsService.SetValue(element, value),
+      Commit: () => this.lmsService.Commit(),
+      GetLastError: () => this.lmsService.GetLastError(),
+      GetErrorString: (errorCode: string) => this.lmsService.GetErrorString(errorCode),
+      GetDiagnostic: (errorCode: string) => this.lmsService.GetDiagnostic(errorCode)
+    };
   }
 
   launchNumbasTest(mode: 'attempt' | 'review' = 'attempt'): void {
     this.currentMode = mode;
-    const iframe = document.createElement('iframe');
-    iframe.src = 'http://localhost:4200/api/numbas_api/index.html';
-    iframe.style.width = '100%';
-    iframe.style.height = '800px';
-    document.body.appendChild(iframe);
-  }
-
-  setReviewMode(): void {
-    this.reviewTest();
-  }
-
-  removeNumbasTest(): void {
-    const iframe = document.getElementsByTagName('iframe')[0];
-    iframe?.parentNode?.removeChild(iframe);
-  }
-
-  reviewTest(): void {
-    this.launchNumbasTest('review');
+    const iframe = this.renderer.createElement('iframe');
+    this.renderer.setAttribute(iframe, 'src', 'http://localhost:3000/api/numbas_api/units/1/task_definitions/1/numbas_data/index.html');
+    this.renderer.setStyle(iframe, 'width', '100%');
+    this.renderer.setStyle(iframe, 'height', '800px');
+    this.renderer.appendChild(document.body, iframe);
   }
 
   interceptIframeRequests(): void {
     const originalOpen = XMLHttpRequest.prototype.open;
     const numbasService = this.numbasService;
-    const unitId = this.unit.id;
-    const taskDefId = this.task.definition.id;
     XMLHttpRequest.prototype.open = function (this: XMLHttpRequest, method: string, url: string | URL, async: boolean = true, username?: string | null, password?: string | null) {
       if (typeof url === 'string' && url.startsWith('/api/numbas_api/')) {
         const resourcePath = url.replace('/api/numbas_api/', '');
         this.abort();
-        numbasService.fetchResource(unitId, taskDefId, resourcePath).subscribe(
+        numbasService.fetchResource(1, 1, resourcePath).subscribe(
           (resourceData) => {
             if (this.onload) {
               this.onload.call(this, resourceData);
