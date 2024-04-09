@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Task } from 'src/app/api/models/task';
 import { TaskDefinition } from 'src/app/api/models/task-definition';
 import { Unit } from 'src/app/api/models/unit';
@@ -23,13 +23,12 @@ export class NumbasComponent implements OnInit {
   constructor(
     private numbasService: NumbasService,
     private lmsService: NumbasLmsService,
-    private renderer: Renderer2
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.interceptIframeRequests();
 
-    window.API_1484_11 =  {
+    window.API_1484_11 = {
       Initialize: () => this.lmsService.Initialize(this.currentMode),
       Terminate: () => this.lmsService.Terminate(),
       GetValue: (element: string) => this.lmsService.GetValue(element),
@@ -43,11 +42,20 @@ export class NumbasComponent implements OnInit {
 
   launchNumbasTest(mode: 'attempt' | 'review' = 'attempt'): void {
     this.currentMode = mode;
-    const iframe = this.renderer.createElement('iframe');
-    this.renderer.setAttribute(iframe, 'src', 'http://localhost:3000/api/numbas_api/units/1/task_definitions/1/numbas_data/index.html');
-    this.renderer.setStyle(iframe, 'width', '100%');
-    this.renderer.setStyle(iframe, 'height', '800px');
-    this.renderer.appendChild(document.body, iframe);
+    const iframe = document.createElement('iframe');
+    iframe.src = 'http://example.org';
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.zIndex = '9999'; // Set a high z-index value
+
+    // Get the topmost element in the document
+    var topElement = document.documentElement.firstChild;
+
+    // Replace the top element with the iframe
+    document.documentElement.replaceChild(iframe, topElement);
   }
 
   interceptIframeRequests(): void {
