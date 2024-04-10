@@ -13,13 +13,12 @@ export class NumbasService {
   /**
    * Fetches a specified resource for a given unit and task.
    *
-   * @param unitId - The ID of the unit
    * @param taskDefId - The ID of the task definition
    * @param resourcePath - Path to the desired resource
    * @returns An Observable with the Blob of the fetched resource
    */
-  fetchResource(unitId: number, taskDefId: number, resourcePath: string): Observable<any> {
-    const resourceUrl = `${API_URL}/numbas_api/${taskDefId}/numbas_data/${resourcePath}`;
+  fetchResource(taskDefId: number, resourcePath: string): Observable<any> {
+    const resourceUrl = `${API_URL}/numbas_api/${taskDefId}/${resourcePath}`;
     const resourceMimeType = this.getMimeType(resourcePath);
 
     return this.http.get(resourceUrl, { responseType: 'blob' }).pipe(

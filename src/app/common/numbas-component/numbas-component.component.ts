@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Task } from 'src/app/api/models/task';
-import { TaskDefinition } from 'src/app/api/models/task-definition';
-import { Unit } from 'src/app/api/models/unit';
 import { NumbasLmsService } from 'src/app/api/services/numbas-lms.service';
 import { NumbasService } from 'src/app/api/services/numbas.service';
 
@@ -11,12 +9,11 @@ declare global {
 
 @Component({
   selector: 'f-numbas-component',
-  templateUrl: './numbas-component.component.html'
+  templateUrl: './numbas-component.component.html',
+  styleUrls: ['numbas-component.component.scss'],
 })
-export class NumbasComponent implements OnInit {
+export class NumbasComponent implements OnInit, OnChanges {
   @Input() task: Task;
-  @Input() unit: Unit;
-  @Input() taskDef: TaskDefinition;
 
   currentMode: 'attempt' | 'review' = 'attempt';
 
@@ -40,32 +37,38 @@ export class NumbasComponent implements OnInit {
     };
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.task) {
+      this.task = changes.task.currentValue;
+      this.lmsService.setTask(this.task);
+    }
+  }
+
   launchNumbasTest(mode: 'attempt' | 'review' = 'attempt'): void {
     this.currentMode = mode;
+
     const iframe = document.createElement('iframe');
-    iframe.src = 'http://example.org';
+    iframe.src = `http://localhost:3000/api/numbas_api/${this.task.taskDefId}/index.html`;
+
     iframe.style.position = 'fixed';
     iframe.style.top = '0';
     iframe.style.left = '0';
     iframe.style.width = '100%';
     iframe.style.height = '100%';
-    iframe.style.zIndex = '9999'; // Set a high z-index value
+    iframe.style.zIndex = '9999';
 
-    // Get the topmost element in the document
-    var topElement = document.documentElement.firstChild;
-
-    // Replace the top element with the iframe
-    document.documentElement.replaceChild(iframe, topElement);
+    document.body.appendChild(iframe);
   }
 
   interceptIframeRequests(): void {
     const originalOpen = XMLHttpRequest.prototype.open;
     const numbasService = this.numbasService;
+    const taskDefId = this.task.taskDefId;
     XMLHttpRequest.prototype.open = function (this: XMLHttpRequest, method: string, url: string | URL, async: boolean = true, username?: string | null, password?: string | null) {
       if (typeof url === 'string' && url.startsWith('/api/numbas_api/')) {
         const resourcePath = url.replace('/api/numbas_api/', '');
         this.abort();
-        numbasService.fetchResource(1, 1, resourcePath).subscribe(
+        numbasService.fetchResource(taskDefId, resourcePath).subscribe(
           (resourceData) => {
             if (this.onload) {
               this.onload.call(this, resourceData);
