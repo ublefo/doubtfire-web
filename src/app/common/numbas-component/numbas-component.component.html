@@ -1,3 +1,4 @@
-<button class="btn btn-default" (click)="launchNumbasTest()">
-  <i class="fa fa-check-square-o"></i> Launch Numbas Test
-</button>
+<div mat-dialog-content>
+  <iframe [src]="iframeSrc"></iframe>
+  <button mat-dialog-close mat-stroked-button color="warn" (click)="removeNumbasTest()">Exit</button>
+</div>

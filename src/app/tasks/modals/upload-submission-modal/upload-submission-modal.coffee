@@ -32,7 +32,7 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
 
   UploadSubmissionModal
 )
-.controller('UploadSubmissionModalCtrl', ($scope, $rootScope, $timeout, $modalInstance, newTaskService, newProjectService, task, reuploadEvidence, alertService, outcomeService, PrivacyPolicy) ->
+.controller('UploadSubmissionModalCtrl', ($scope, $rootScope, $timeout, $modalInstance, NumbasModal, newTaskService, newProjectService, task, reuploadEvidence, alertService, outcomeService, PrivacyPolicy) ->
   $scope.privacyPolicy = PrivacyPolicy
   # Expose task to scope
   $scope.task = task
@@ -154,6 +154,9 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
     next: states.next
     previous: states.previous
   }
+
+  $scope.launchNumbasDialog = ->
+    NumbasModal.show $scope.task, 'attempt'
 
   # Whether or not we should disable this button
   $scope.shouldDisableBtn = {

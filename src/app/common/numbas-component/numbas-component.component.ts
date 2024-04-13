@@ -1,7 +1,11 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Task } from 'src/app/api/models/task';
 import { NumbasLmsService } from 'src/app/api/services/numbas-lms.service';
-import { NumbasService } from 'src/app/api/services/numbas.service';
+import { UserService } from 'src/app/api/services/user.service';
+import { AppInjector } from 'src/app/app-injector';
+import { DoubtfireConstants } from 'src/app/config/constants/doubtfire-constants';
 
 declare global {
   interface Window { API_1484_11: any; }
@@ -10,20 +14,29 @@ declare global {
 @Component({
   selector: 'f-numbas-component',
   templateUrl: './numbas-component.component.html',
-  styleUrls: ['numbas-component.component.scss'],
+  styleUrls: ['./numbas-component.component.scss'],
 })
-export class NumbasComponent implements OnInit, OnChanges {
-  @Input() task: Task;
-
+export class NumbasComponent implements OnInit {
+  task: Task;
   currentMode: 'attempt' | 'review' = 'attempt';
+  iframeSrc: SafeResourceUrl;
 
   constructor(
-    private numbasService: NumbasService,
+    private dialogRef: MatDialogRef<NumbasComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { task: Task, mode: 'attempt' | 'review' },
     private lmsService: NumbasLmsService,
+    private userService: UserService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    this.interceptIframeRequests();
+    this.task = this.data.task;
+    this.lmsService.setTask(this.task);
+
+    this.currentMode = this.data.mode;
+
+    const user = this.userService.currentUser;
+    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`${AppInjector.get(DoubtfireConstants).API_URL}/numbas_api/${this.task.taskDefId}/${user.authenticationToken}/${user.username}/index.html`);
 
     window.API_1484_11 = {
       Initialize: () => this.lmsService.Initialize(this.currentMode),
@@ -37,50 +50,7 @@ export class NumbasComponent implements OnInit, OnChanges {
     };
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.task) {
-      this.task = changes.task.currentValue;
-      this.lmsService.setTask(this.task);
-    }
-  }
-
-  launchNumbasTest(mode: 'attempt' | 'review' = 'attempt'): void {
-    this.currentMode = mode;
-
-    const iframe = document.createElement('iframe');
-    iframe.src = `http://localhost:3000/api/numbas_api/${this.task.taskDefId}/index.html`;
-
-    iframe.style.position = 'fixed';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.zIndex = '9999';
-
-    document.body.appendChild(iframe);
-  }
-
-  interceptIframeRequests(): void {
-    const originalOpen = XMLHttpRequest.prototype.open;
-    const numbasService = this.numbasService;
-    const taskDefId = this.task.taskDefId;
-    XMLHttpRequest.prototype.open = function (this: XMLHttpRequest, method: string, url: string | URL, async: boolean = true, username?: string | null, password?: string | null) {
-      if (typeof url === 'string' && url.startsWith('/api/numbas_api/')) {
-        const resourcePath = url.replace('/api/numbas_api/', '');
-        this.abort();
-        numbasService.fetchResource(taskDefId, resourcePath).subscribe(
-          (resourceData) => {
-            if (this.onload) {
-              this.onload.call(this, resourceData);
-            }
-          },
-          (error) => {
-            console.error('Error fetching Numbas resource:', error);
-          }
-        );
-      } else {
-        originalOpen.call(this, method, url, async, username, password);
-      }
-    };
+  removeNumbasTest(): void {
+    this.dialogRef.close();
   }
 }
