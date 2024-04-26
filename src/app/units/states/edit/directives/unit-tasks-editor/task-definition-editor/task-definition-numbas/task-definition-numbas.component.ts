@@ -41,7 +41,9 @@ export class TaskDefinitionNumbasComponent {
   }
 
   public uploadNumbasTest(files: FileList) {
-    const validFiles = Array.from(files as ArrayLike<File>).filter((f) => f.type === 'application/zip');
+    console.log(Array.from(files).map(f => f.type));
+    const validMimeTypes = ['application/zip', 'application/x-zip-compressed', 'multipart/x-zip'];
+    const validFiles = Array.from(files as ArrayLike<File>).filter(f => validMimeTypes.includes(f.type));
     if (validFiles.length > 0) {
       const file = validFiles[0];
       this.taskDefinitionService.uploadNumbasData(this.taskDefinition, file).subscribe({
