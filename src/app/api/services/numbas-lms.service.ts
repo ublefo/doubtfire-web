@@ -69,7 +69,7 @@ export class NumbasLmsService {
         const completedTest = JSON.parse(xhr.responseText);
         const parsedExamData = JSON.parse(completedTest.exam_data || '{}');
 
-        // Set entire suspendData string to cmi.suspend_data
+        // Set entire parsedExamData string to cmi.suspend_data
         this.SetValue('cmi.suspend_data', JSON.stringify(parsedExamData));
 
         // Use SetValue to set parsedExamData values to dataStore
@@ -146,14 +146,14 @@ export class NumbasLmsService {
     this.SetValue('cmi.entry', 'RO');
     const cmientry = this.GetValue('cmi.entry');
     const data = {
-      id: this.taskId,
       name: ExamName,
       attempt_number: currentAttemptNumber,
       pass_status: status === 'passed',
       exam_data: JSON.stringify(this.dataStore),
       completed: true,
       exam_result: examResult,
-      cmi_entry: cmientry
+      cmi_entry: cmientry,
+      task_id: this.taskId
     };
 
     const xhr = new XMLHttpRequest();
