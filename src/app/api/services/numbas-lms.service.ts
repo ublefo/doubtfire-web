@@ -1,7 +1,5 @@
-import { Injectable, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { TaskService } from './task.service';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { UserService } from './user.service';
 import API_URL from 'src/app/config/constants/apiURL';
 import { Task } from '../models/task';
@@ -10,7 +8,6 @@ import { Task } from '../models/task';
   providedIn: 'root'
 })
 export class NumbasLmsService {
-
   private readonly apiBaseUrl = `${API_URL}/test_attempts`;
 
   private defaultValues: { [key: string]: string } = {
@@ -35,11 +32,7 @@ export class NumbasLmsService {
 
   dataStore: { [key: string]: any } = this.getDefaultDataStore();
 
-  constructor(
-    private http: HttpClient,
-    private taskService: TaskService,
-    private userService: UserService
-  ) {
+  constructor(private userService: UserService) {
     this.learnerId = this.userService.currentUser.studentId;
   }
 
@@ -74,7 +67,7 @@ export class NumbasLmsService {
 
       try {
         const completedTest = JSON.parse(xhr.responseText);
-        const parsedExamData = JSON.parse(completedTest.data.exam_data || '{}');
+        const parsedExamData = JSON.parse(completedTest.exam_data || '{}');
 
         // Set entire suspendData string to cmi.suspend_data
         this.SetValue('cmi.suspend_data', JSON.stringify(parsedExamData));
@@ -108,17 +101,17 @@ export class NumbasLmsService {
     try {
       latestTest = JSON.parse(xhr.responseText);
       console.log('Latest test result:', latestTest);
-      this.testId = latestTest.data.id;
+      this.testId = latestTest.id;
 
-      if (latestTest.data['cmi_entry'] === 'ab-initio') {
+      if (latestTest['cmi_entry'] === 'ab-initio') {
         console.log("starting new test");
         this.SetValue('cmi.learner_id', this.learnerId);
         this.dataStore['name'] = examName;
-        this.dataStore['attempt_number'] = latestTest.data['attempt_number'];
+        this.dataStore['attempt_number'] = latestTest['attempt_number'];
         console.log(this.dataStore);
-      } else if (latestTest.data['cmi_entry'] === 'resume') {
+      } else if (latestTest['cmi_entry'] === 'resume') {
         console.log("resuming test");
-        const parsedExamData = JSON.parse(latestTest.data.exam_data || '{}');
+        const parsedExamData = JSON.parse(latestTest.exam_data || '{}');
 
         this.dataStore = JSON.parse(JSON.stringify(parsedExamData));
 
@@ -127,7 +120,7 @@ export class NumbasLmsService {
 
       this.initializationComplete$.next(true);
 
-      console.log("finished initlizing");
+      console.log("finished initializing");
       return 'true';
     } catch (error) {
       console.error('Error:', error);
@@ -153,7 +146,7 @@ export class NumbasLmsService {
     this.SetValue('cmi.entry', 'RO');
     const cmientry = this.GetValue('cmi.entry');
     const data = {
-      task_id: this.taskId,
+      id: this.taskId,
       name: ExamName,
       attempt_number: currentAttemptNumber,
       pass_status: status === 'passed',
