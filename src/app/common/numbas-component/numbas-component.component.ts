@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Task } from 'src/app/api/models/task';
 import { NumbasLmsService } from 'src/app/api/services/numbas-lms.service';
-import { UserService } from 'src/app/api/services/user.service';
 import { AppInjector } from 'src/app/app-injector';
 import { DoubtfireConstants } from 'src/app/config/constants/doubtfire-constants';
 
@@ -25,18 +24,12 @@ export class NumbasComponent implements OnInit {
     private dialogRef: MatDialogRef<NumbasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { task: Task, mode: 'attempt' | 'review' },
     private lmsService: NumbasLmsService,
-    private userService: UserService,
     private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     this.task = this.data.task;
     this.lmsService.setTask(this.task);
-
-    this.currentMode = this.data.mode;
-
-    const user = this.userService.currentUser;
-    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`${AppInjector.get(DoubtfireConstants).API_URL}/numbas_api/${this.task.taskDefId}/${user.authenticationToken}/${user.username}/index.html`);
 
     window.API_1484_11 = {
       Initialize: () => this.lmsService.Initialize(this.currentMode),
@@ -48,6 +41,10 @@ export class NumbasComponent implements OnInit {
       GetErrorString: (errorCode: string) => this.lmsService.GetErrorString(errorCode),
       GetDiagnostic: (errorCode: string) => this.lmsService.GetDiagnostic(errorCode)
     };
+
+    this.currentMode = this.data.mode;
+
+    this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`${AppInjector.get(DoubtfireConstants).API_URL}/numbas_api/${this.task.taskDefId}/index.html`);
   }
 
   removeNumbasTest(): void {
