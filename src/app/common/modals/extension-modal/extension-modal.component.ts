@@ -22,6 +22,7 @@ export class ReasonErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ExtensionModalComponent {
   protected reasonMinLength: number = 15;
+  protected reasonMaxLength: number = 256;
   constructor(
     public dialogRef: MatDialogRef<ExtensionModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {task: Task; afterApplication?: () => void},
@@ -34,6 +35,7 @@ export class ExtensionModalComponent {
     extensionReason: new FormControl('', [
       Validators.required,
       Validators.minLength(this.reasonMinLength),
+      Validators.maxLength(this.reasonMaxLength),
     ]),
   });
 
