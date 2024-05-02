@@ -40,14 +40,8 @@ export class ExtensionModalComponent {
   });
 
   get extensionDuration(): number {
-    // calculating the number of weeks between now and the requested date, rounding up
-    const days = differenceInDays(this.extensionDate, this.data.task.localDueDate());
-    let weeks = differenceInWeeks(this.extensionDate, this.data.task.localDueDate());
-    if (days % 7 > 0 || weeks == 0) {
-      // round week count up if there are less than a week left or requested range is not in weeks
-      weeks++;
-    }
-    return weeks;
+    // calculating the number of days between now and the requested date
+    return differenceInDays(this.extensionDate, this.data.task.localDueDate()) + 1;
   }
 
   // minimum date is due date if before target date, current date if after target date
