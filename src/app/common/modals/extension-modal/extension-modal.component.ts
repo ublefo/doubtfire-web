@@ -5,7 +5,7 @@ import {TaskComment, TaskCommentService, Task} from 'src/app/api/models/doubtfir
 import {AppInjector} from 'src/app/app-injector';
 import {FormControl, Validators, FormGroup, FormGroupDirective, NgForm} from '@angular/forms';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {differenceInWeeks, differenceInDays, isAfter, addDays} from 'date-fns';
+import {differenceInDays, isPast, addDays, startOfDay} from 'date-fns';
 import {ErrorStateMatcher} from '@angular/material/core';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -41,20 +41,19 @@ export class ExtensionModalComponent {
 
   get extensionDuration(): number {
     // calculating the number of days between now and the requested date
-    return differenceInDays(this.extensionDate, this.data.task.localDueDate()) + 1;
+    // use start of day to get correct number of days
+    return differenceInDays(
+      startOfDay(this.extensionDate),
+      startOfDay(this.data.task.localDueDate()),
+    );
   }
 
-  // minimum date is due date if before target date, current date if after target date
+  // minimum date is the next day of due date if before target date, next day of current date if after target date
   minDate = new Date(
-    addDays(
-      isAfter(Date.now(), this.data.task.localDueDate())
-        ? new Date()
-        : this.data.task.localDueDate(),
-      1,
-    ),
+    addDays(isPast(this.data.task.localDueDate()) ? new Date() : this.data.task.localDueDate(), 1),
   );
-  maxDate = this.data.task.localDeadlineDate(); // deadline, hard deadline
-  extensionDate = new Date(this.minDate);
+  maxDate = this.data.task.localDeadlineDate(); // due date, hard deadline
+  extensionDate = new Date(startOfDay(this.minDate));
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
     this.extensionDate = new Date(event.value);
   }
