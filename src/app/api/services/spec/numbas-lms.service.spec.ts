@@ -55,7 +55,7 @@ describe('NumbasLmsService', () => {
     it('should handle review mode and get latest completed test result', () => {
       const mockResponse = {
         data: {
-          exam_data: JSON.stringify({ someData: 'value' })
+          suspend_data: JSON.stringify({ someData: 'value' })
         }
       };
 

@@ -48,6 +48,8 @@ export class NumbasComponent implements OnInit {
   }
 
   removeNumbasTest(): void {
+    const iframe = document.getElementsByTagName('iframe')[0];
+    iframe?.parentNode?.removeChild(iframe);
     this.dialogRef.close();
   }
 }
