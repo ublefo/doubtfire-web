@@ -1,0 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="space-evenly center">
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <div>
+      <hr class="hr-text" data-content="Numbas Summary" />
+      <div class="markdown-to-html" [innerHTML]="comment.text"></div>
+      <button mat-button (click)="reviewNumbasTest()">Review test</button>
+      <hr class="hr-fade" />
+    </div>
+  </div>
+</div>

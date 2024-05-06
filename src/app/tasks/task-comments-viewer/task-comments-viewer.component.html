@@ -85,6 +85,14 @@
                 ></app-task-assessment-comment>
               </div>
 
+              <div *ngSwitchCase="'numbas'" class="comment-numbas">
+                <numbas-comment
+                  [task]="task"
+                  [comment]="comment"
+                  *ngIf="numbasEnabled"
+                ></numbas-comment>
+              </div>
+
               <div class="bubble" [ngClass]="commentClasses(comment)">
                 <a
                   (click)="scrollToComment(comment.originalComment.id)"

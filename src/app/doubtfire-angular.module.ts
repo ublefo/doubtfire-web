@@ -233,6 +233,7 @@ import {TasksViewerComponent} from './units/states/tasks/tasks-viewer/tasks-view
 import {NumbasComponent} from './common/numbas-component/numbas-component.component';
 import {NumbasModal} from './common/numbas-component/numbas-modal.component';
 import {NumbasLmsService} from './api/services/numbas-lms.service';
+import {NumbasCommentComponent} from './tasks/task-comments-viewer/numbas-comment/numbas-comment.component';
 
 @NgModule({
   // Components we declare
@@ -333,6 +334,7 @@ import {NumbasLmsService} from './api/services/numbas-lms.service';
     FUsersComponent,
     FUnitsComponent,
     NumbasComponent,
+    NumbasCommentComponent,
   ],
   // Module Imports
   imports: [

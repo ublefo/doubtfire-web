@@ -97,6 +97,10 @@ export class TaskCommentsViewerComponent implements OnChanges, OnInit {
     return this.constants.IsOverseerEnabled.value;
   }
 
+  get numbasEnabled(): boolean {
+    return this.task.numbasEnabled;
+  }
+
   uploadFiles(event) {
     [...event].forEach((file) => {
       if (
@@ -149,7 +153,7 @@ export class TaskCommentsViewerComponent implements OnChanges, OnInit {
   }
 
   shouldShowAuthorIcon(commentType: string) {
-    return !(commentType === 'extension' || commentType === 'status' || commentType == 'assessment');
+    return !(commentType === 'extension' || commentType === 'status' || commentType == 'assessment' || commentType == 'numbas');
   }
 
   commentClasses(comment: TaskComment): object {
