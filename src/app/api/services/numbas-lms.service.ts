@@ -21,7 +21,7 @@ export class NumbasLmsService {
   };
 
   private testId: number = 0;
-  private taskId: number;
+  private task: Task;
   private learnerId: string;
   initializationComplete$ = new BehaviorSubject<boolean>(false);
 
@@ -37,7 +37,7 @@ export class NumbasLmsService {
   }
 
   setTask(task: Task) {
-    this.taskId = task.id;
+    this.task = task;
   }
 
   getDefaultDataStore() {
@@ -56,7 +56,7 @@ export class NumbasLmsService {
     if (mode === 'review') {
       this.SetValue('cmi.mode', 'review');
 
-      xhr.open("GET", `${this.apiBaseUrl}/completed-latest?task_id=${this.taskId}`, false);
+      xhr.open("GET", `${this.apiBaseUrl}/completed-latest?task_id=${this.task.id}`, false);
       xhr.send();
       console.log(xhr.responseText);
 
@@ -88,7 +88,7 @@ export class NumbasLmsService {
       }
     }
 
-    xhr.open("GET", `${this.apiBaseUrl}/latest?task_id=${this.taskId}`, false);
+    xhr.open("GET", `${this.apiBaseUrl}/latest?task_id=${this.task.id}`, false);
     xhr.send();
     console.log(xhr.responseText);
 
@@ -139,7 +139,7 @@ export class NumbasLmsService {
   Terminate(): string {
     console.log('Terminate Called');
     const examResult = this.dataStore["cmi.score.raw"];
-    const status = this.GetValue("cmi.completion_status");
+    const status = this.GetValue("cmi.success_status");
     this.dataStore['completed'] = true;
     const currentAttemptNumber = this.dataStore['attempt_number'] || 0;
     const ExamName = this.dataStore['name'];
@@ -153,7 +153,7 @@ export class NumbasLmsService {
       completed: true,
       exam_result: examResult,
       cmi_entry: cmientry,
-      task_id: this.taskId
+      task_id: this.task.id
     };
 
     const xhr = new XMLHttpRequest();

@@ -145,7 +145,7 @@ export class TaskCommentService extends CachedEntityService<TaskComment> {
     const opts: RequestOptions<TaskComment> = { endpointFormat: this.commentEndpointFormat };
 
     // Based on the comment type - add to the body and configure the end point
-    if (commentType === 'text') {
+    if (commentType === 'text' || commentType === 'numbas') {
       body.append('comment', data);
     } else if (commentType === 'discussion') {
       opts.endpointFormat = this.discussionEndpointFormat;

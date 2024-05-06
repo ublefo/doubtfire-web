@@ -243,6 +243,7 @@ import { TasksViewerComponent } from './units/states/tasks/tasks-viewer/tasks-vi
 import { FUnitsComponent } from './admin/states/f-units/f-units.component';
 import { NumbasComponent } from './common/numbas-component/numbas-component.component';
 import { NumbasModal } from './common/numbas-component/numbas-modal.component';
+import { TestAttemptService } from './api/services/test-attempt.service';
 
 export const DoubtfireAngularJSModule = angular.module('doubtfire', [
   'doubtfire.config',
@@ -294,6 +295,7 @@ DoubtfireAngularJSModule.factory('TransitionHooksService', downgradeInjectable(T
 DoubtfireAngularJSModule.factory('EditProfileService', downgradeInjectable(EditProfileDialogService));
 DoubtfireAngularJSModule.factory('CreateNewUnitModal', downgradeInjectable(CreateNewUnitModal));
 DoubtfireAngularJSModule.factory('NumbasModal', downgradeInjectable(NumbasModal));
+DoubtfireAngularJSModule.factory('testAttemptService', downgradeInjectable(TestAttemptService));
 
 // directive -> component
 DoubtfireAngularJSModule.directive(

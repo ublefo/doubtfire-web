@@ -1,14 +1,22 @@
 import { Entity } from "ngx-entity-service";
+import { Task } from "./task";
 
 export class TestAttempt extends Entity {
-  id: number;
+  public id: number;
   name: string;
   attemptNumber: number;
   passStatus: boolean;
-  examData: string;
+  suspendData: string;
   completed: boolean;
   cmiEntry: string;
   examResult: string;
   attemptedAt: Date;
-  associatedTaskId: number;
+  taskId: number;
+
+  task: Task;
+
+  constructor(task: Task) {
+    super();
+    this.task = task;
+  }
 }
