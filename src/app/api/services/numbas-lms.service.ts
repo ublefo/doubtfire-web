@@ -13,16 +13,16 @@ export class NumbasLmsService {
   private defaultValues: { [key: string]: string } = {
     'cmi.completion_status': 'not attempted',
     'cmi.entry': 'ab-initio',
+    'cmi.objectives._count': '0',
+    'cmi.interactions._count': '0',
     'numbas.user_role': 'learner',
-    'numbas.duration_extension.units': 'seconds',
     'cmi.mode': 'normal',
-    'cmi.undefinedlearner_response': '1',
-    'cmi.undefinedresult': '0'
   };
 
   private testId: number = 0;
   private task: Task;
-  private learnerId: string;
+  private readonly learnerId: string;
+  private readonly learnerName: string;
   initializationComplete$ = new BehaviorSubject<boolean>(false);
 
   private scormErrors: { [key: string]: string } = {
@@ -33,7 +33,9 @@ export class NumbasLmsService {
   dataStore: { [key: string]: any } = this.getDefaultDataStore();
 
   constructor(private userService: UserService) {
-    this.learnerId = this.userService.currentUser.studentId;
+    const user = this.userService.currentUser;
+    this.learnerId = user.studentId;
+    this.learnerName = user.firstName + user.lastName;
   }
 
   setTask(task: Task) {
@@ -106,6 +108,7 @@ export class NumbasLmsService {
       if (latestTest.data['cmi_entry'] === 'ab-initio') {
         console.log("starting new test");
         this.SetValue('cmi.learner_id', this.learnerId);
+        this.SetValue('cmi.learner_name', this.learnerName);
         this.dataStore['name'] = examName;
         this.dataStore['attempt_number'] = latestTest.data['attempt_number'];
         console.log(this.dataStore);
@@ -178,9 +181,17 @@ export class NumbasLmsService {
   }
 
   SetValue(element: string, value: any): string {
-    if (element.startsWith('cmi.')) {
-      this.dataStore[element] = value;
+    console.log(`SetValue:`, element, value);
+    this.dataStore[element] = value;
+    if (element.match('cmi.interactions.\\d+.id')) {
+      console.log('Incrementing cmi.interactions._count');
+      this.dataStore['cmi.interactions._count']++;
     }
+    if (element.match('cmi.objectives.\\d+.id')) {
+      console.log('Incrementing cmi.objectives._count');
+      this.dataStore['cmi.objectives._count']++;
+    }
+    // console.log("dataStore after value set:", this.dataStore);
     return 'true';
   }
 
