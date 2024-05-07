@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Task } from 'src/app/api/models/task';
-import { NumbasLmsService } from 'src/app/api/services/numbas-lms.service';
+import { ScormLmsService } from 'src/app/api/services/scorm-lms.service';
 import { AppInjector } from 'src/app/app-injector';
 import { DoubtfireConstants } from 'src/app/config/constants/doubtfire-constants';
 
@@ -23,7 +23,7 @@ export class NumbasComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<NumbasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { task: Task, mode: 'attempt' | 'review' },
-    private lmsService: NumbasLmsService,
+    private lmsService: ScormLmsService,
     private sanitizer: DomSanitizer
   ) {}
 

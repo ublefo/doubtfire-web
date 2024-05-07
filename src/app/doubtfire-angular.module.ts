@@ -232,7 +232,7 @@ import {FTaskSheetViewComponent} from './units/states/tasks/viewer/directives/f-
 import {TasksViewerComponent} from './units/states/tasks/tasks-viewer/tasks-viewer.component';
 import {NumbasComponent} from './common/numbas-component/numbas-component.component';
 import {NumbasModal} from './common/numbas-component/numbas-modal.component';
-import {NumbasLmsService} from './api/services/numbas-lms.service';
+import {ScormLmsService} from './api/services/scorm-lms.service';
 import {NumbasCommentComponent} from './tasks/task-comments-viewer/numbas-comment/numbas-comment.component';
 import {TestAttemptService} from './api/services/test-attempt.service';
 
@@ -409,7 +409,7 @@ import {TestAttemptService} from './api/services/test-attempt.service';
     IsActiveUnitRole,
     CreateNewUnitModal,
     NumbasModal,
-    NumbasLmsService,
+    ScormLmsService,
     TestAttemptService,
   ],
   imports: [

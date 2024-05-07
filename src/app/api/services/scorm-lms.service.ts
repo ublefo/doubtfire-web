@@ -7,7 +7,7 @@ import { Task } from '../models/task';
 @Injectable({
   providedIn: 'root'
 })
-export class NumbasLmsService {
+export class ScormLmsService {
   private readonly apiBaseUrl = `${API_URL}/test_attempts`;
 
   private defaultValues: { [key: string]: string } = {

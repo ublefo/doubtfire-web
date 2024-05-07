@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { NumbasLmsService } from '../numbas-lms.service';
+import { ScormLmsService } from '../scorm-lms.service';
 import { TaskService } from '../task.service';
 import { UserService } from '../user.service';
 import { of } from 'rxjs';
 
 describe('NumbasLmsService', () => {
-  let service: NumbasLmsService;
+  let service: ScormLmsService;
   let httpTestingController: HttpTestingController;
   let mockUserService: Partial<UserService>;
   let mockTaskService: Partial<TaskService>;
@@ -27,13 +27,13 @@ describe('NumbasLmsService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        NumbasLmsService,
+        ScormLmsService,
         { provide: UserService, useValue: mockUserService },
         { provide: TaskService, useValue: mockTaskService }
       ]
     });
 
-    service = TestBed.inject(NumbasLmsService);
+    service = TestBed.inject(ScormLmsService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 
