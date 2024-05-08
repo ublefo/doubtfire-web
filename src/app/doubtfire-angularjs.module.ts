@@ -227,8 +227,8 @@ import {TasksViewerComponent} from './units/states/tasks/tasks-viewer/tasks-view
 import {FUnitsComponent} from './admin/states/f-units/f-units.component';
 import { MarkedPipe } from './common/pipes/marked.pipe';
 import { AlertService } from './common/services/alert.service';
-import { NumbasComponent } from './common/numbas-component/numbas-component.component';
-import { NumbasModal } from './common/numbas-component/numbas-modal.component';
+import { ScormPlayerComponent } from './common/scorm-player/scorm-player.component';
+import { ScormPlayerModal } from './common/scorm-player/scorm-player-modal.component';
 import { TestAttemptService } from './api/services/test-attempt.service';
 
 export const DoubtfireAngularJSModule = angular.module('doubtfire', [
@@ -311,7 +311,7 @@ DoubtfireAngularJSModule.factory(
   downgradeInjectable(EditProfileDialogService),
 );
 DoubtfireAngularJSModule.factory('CreateNewUnitModal', downgradeInjectable(CreateNewUnitModal));
-DoubtfireAngularJSModule.factory('NumbasModal', downgradeInjectable(NumbasModal));
+DoubtfireAngularJSModule.factory('ScormPlayerModal', downgradeInjectable(ScormPlayerModal));
 DoubtfireAngularJSModule.factory('testAttemptService', downgradeInjectable(TestAttemptService));
 
 // directive -> component
@@ -447,7 +447,10 @@ DoubtfireAngularJSModule.directive(
 );
 DoubtfireAngularJSModule.directive('fUnits', downgradeComponent({component: FUnitsComponent}));
 
-DoubtfireAngularJSModule.directive('fNumbasComponent', downgradeComponent({ component: NumbasComponent }));
+DoubtfireAngularJSModule.directive(
+  'fScormPlayerComponent',
+  downgradeComponent({component: ScormPlayerComponent}),
+);
 
 // Global configuration
 DoubtfireAngularJSModule.directive(

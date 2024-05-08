@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Task, TaskComment } from 'src/app/api/models/doubtfire-model';
-import { NumbasModal } from 'src/app/common/numbas-component/numbas-modal.component';
+import { ScormPlayerModal } from 'src/app/common/scorm-player/scorm-player-modal.component';
 
 @Component({
   selector: 'numbas-comment',
@@ -11,7 +11,7 @@ export class NumbasCommentComponent implements OnInit {
   @Input() task: Task;
   @Input() comment: TaskComment;
 
-  constructor(private modalService: NumbasModal) {}
+  constructor(private modalService: ScormPlayerModal) {}
 
   ngOnInit() {}
 

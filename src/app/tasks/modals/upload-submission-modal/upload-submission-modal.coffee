@@ -32,7 +32,7 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
 
   UploadSubmissionModal
 )
-.controller('UploadSubmissionModalCtrl', ($scope, $rootScope, $timeout, $modalInstance, NumbasModal, newTaskService, newProjectService, task, reuploadEvidence, outcomeService, PrivacyPolicy) ->
+.controller('UploadSubmissionModalCtrl', ($scope, $rootScope, $timeout, $modalInstance, ScormPlayerModal, newTaskService, newProjectService, task, reuploadEvidence, outcomeService, PrivacyPolicy) ->
   $scope.privacyPolicy = PrivacyPolicy
   # Expose task to scope
   $scope.task = task
@@ -100,7 +100,7 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
   # States functionality
   states = {
     # All possible states
-    all: ['group', 'numbas', 'files', 'alignment', 'comments', 'uploading']
+    all: ['group', 'scorm-assessment', 'files', 'alignment', 'comments', 'uploading']
     # Only states which are shown (populated in initialise)
     shown: []
     # The currently active state (set in initialise)
@@ -128,7 +128,7 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
       removed.push('group') if !isRFF || !task.isGroupTask()
       removed.push('alignment') if !isRFF || !task.unit.ilos.length > 0
       removed.push('comments') if isTestSubmission
-      removed.push('numbas') if !isRFF || !task.definition.hasEnabledNumbasTest
+      removed.push('scorm-assessment') if !isRFF || !task.definition.hasEnabledNumbasTest
       removed
     # Initialises the states
     initialise: ->
@@ -155,8 +155,9 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
     previous: states.previous
   }
 
-  $scope.launchNumbasDialog = ->
-    NumbasModal.show $scope.task, 'attempt'
+  $scope.launchScormPlayer = ->
+    console.clear()
+    ScormPlayerModal.show $scope.task, 'attempt'
 
   # Whether or not we should disable this button
   $scope.shouldDisableBtn = {

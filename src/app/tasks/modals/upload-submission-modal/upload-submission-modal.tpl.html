@@ -44,9 +44,9 @@
       </div><!--/card-group-->
     </div><!--/state-group-->
     <div
-      class="state state-numbas"
-      ng-class="{'state-hidden-left': isHidden('numbas').left,
-                 'state-hidden-right': isHidden('numbas').right}">
+      class="state state-scorm-assessment"
+      ng-class="{'state-hidden-left': isHidden('scorm-assessment').left,
+                 'state-hidden-right': isHidden('scorm-assessment').right}">
       <div class="card card-default">
         <div class="card-heading">
           <h4>
@@ -57,7 +57,7 @@
           </span>
         </div>
         <div class="card-body">
-          <button class="btn btn-default" ng-click="launchNumbasDialog(); $dismiss()">
+          <button class="btn btn-default" ng-click="launchScormPlayer(); $dismiss()">
             <i class="fa fa-check-square-o"></i> Launch Numbas Test
           </button>
         </div>

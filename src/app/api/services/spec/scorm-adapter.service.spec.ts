@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ScormLmsService } from '../scorm-lms.service';
+import { ScormAdapterService } from '../scorm-adapter.service';
 import { TaskService } from '../task.service';
 import { UserService } from '../user.service';
-import { of } from 'rxjs';
 
-describe('NumbasLmsService', () => {
-  let service: ScormLmsService;
+describe('ScormAdapterService', () => {
+  let service: ScormAdapterService;
   let httpTestingController: HttpTestingController;
   let mockUserService: Partial<UserService>;
   let mockTaskService: Partial<TaskService>;
@@ -27,13 +26,13 @@ describe('NumbasLmsService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        ScormLmsService,
+        ScormAdapterService,
         { provide: UserService, useValue: mockUserService },
         { provide: TaskService, useValue: mockTaskService }
       ]
     });
 
-    service = TestBed.inject(ScormLmsService);
+    service = TestBed.inject(ScormAdapterService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Task } from 'src/app/api/models/task';
-import { ScormLmsService } from 'src/app/api/services/scorm-lms.service';
+import { ScormAdapterService } from 'src/app/api/services/scorm-adapter.service';
 import { AppInjector } from 'src/app/app-injector';
 import { DoubtfireConstants } from 'src/app/config/constants/doubtfire-constants';
 
@@ -11,35 +11,35 @@ declare global {
 }
 
 @Component({
-  selector: 'f-numbas-component',
-  templateUrl: './numbas-component.component.html',
-  styleUrls: ['./numbas-component.component.scss'],
+  selector: 'f-scorm-player',
+  templateUrl: './scorm-player.component.html',
+  styleUrls: ['./scorm-player.component.scss'],
 })
-export class NumbasComponent implements OnInit {
+export class ScormPlayerComponent implements OnInit {
   task: Task;
   currentMode: 'attempt' | 'review' = 'attempt';
   iframeSrc: SafeResourceUrl;
 
   constructor(
-    private dialogRef: MatDialogRef<NumbasComponent>,
+    private dialogRef: MatDialogRef<ScormPlayerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { task: Task, mode: 'attempt' | 'review' },
-    private lmsService: ScormLmsService,
+    private scormAdapter: ScormAdapterService,
     private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     this.task = this.data.task;
-    this.lmsService.setTask(this.task);
+    this.scormAdapter.setTask(this.task);
 
     window.API_1484_11 = {
-      Initialize: () => this.lmsService.Initialize(this.currentMode),
-      Terminate: () => this.lmsService.Terminate(),
-      GetValue: (element: string) => this.lmsService.GetValue(element),
-      SetValue: (element: string, value: string) => this.lmsService.SetValue(element, value),
-      Commit: () => this.lmsService.Commit(),
-      GetLastError: () => this.lmsService.GetLastError(),
-      GetErrorString: (errorCode: string) => this.lmsService.GetErrorString(errorCode),
-      GetDiagnostic: (errorCode: string) => this.lmsService.GetDiagnostic(errorCode)
+      Initialize: () => this.scormAdapter.Initialize(this.currentMode),
+      Terminate: () => this.scormAdapter.Terminate(),
+      GetValue: (element: string) => this.scormAdapter.GetValue(element),
+      SetValue: (element: string, value: string) => this.scormAdapter.SetValue(element, value),
+      Commit: () => this.scormAdapter.Commit(),
+      GetLastError: () => this.scormAdapter.GetLastError(),
+      GetErrorString: (errorCode: string) => this.scormAdapter.GetErrorString(errorCode),
+      GetDiagnostic: (errorCode: string) => this.scormAdapter.GetDiagnostic(errorCode)
     };
 
     this.currentMode = this.data.mode;
@@ -47,7 +47,9 @@ export class NumbasComponent implements OnInit {
     this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`${AppInjector.get(DoubtfireConstants).API_URL}/numbas_api/${this.task.taskDefId}/index.html`);
   }
 
-  removeNumbasTest(): void {
+  close(): void {
+    console.log('SCORM player closing, commiting DataModel!');
+    this.scormAdapter.Commit();
     const iframe = document.getElementsByTagName('iframe')[0];
     iframe?.parentNode?.removeChild(iframe);
     this.dialogRef.close();

@@ -7,7 +7,7 @@ import { Task } from '../models/task';
 @Injectable({
   providedIn: 'root'
 })
-export class ScormLmsService {
+export class ScormAdapterService {
   private readonly apiBaseUrl = `${API_URL}/test_attempts`;
 
   private defaultValues: { [key: string]: string } = {
@@ -207,7 +207,7 @@ export class ScormLmsService {
     if (!this.isTestCompleted()) {
       this.dataStore['cmi.exit'] = 'suspend';
     }
-    console.log("Committing dataStore:", this.dataStore);
+    console.log("Committing DataModel:", this.dataStore);
 
     // Use XHR to send the request
     const xhr = new XMLHttpRequest();
@@ -216,9 +216,9 @@ export class ScormLmsService {
 
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 400) {
-        console.log('Suspend data saved successfully.');
+        console.log('DataModel saved successfully.');
       } else {
-        console.error('Error saving suspend data:', xhr.responseText);
+        console.error('Error saving DataModel:', xhr.responseText);
       }
     };
 
