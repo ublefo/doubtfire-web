@@ -14,7 +14,8 @@ export class ScormPlayerModal {
 
     dialogRef = this.dialog.open(ScormPlayerComponent, {
       data: { task, mode },
-      width: '95%', height: '90%'
+      width: '95%', height: '90%',
+      disableClose: true,
     });
   }
 }

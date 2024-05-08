@@ -69,7 +69,7 @@ export class ScormAdapterService {
 
       try {
         const completedTest = JSON.parse(xhr.responseText);
-        let parsedSuspendData = JSON.parse(completedTest.data.suspend_data || '{}');
+        let parsedSuspendData = JSON.parse(completedTest.data.suspend_data ?? '{}');
 
         // Set entire suspendData string to cmi.suspend_data
         this.SetValue('cmi.suspend_data', JSON.stringify(parsedSuspendData));
@@ -114,7 +114,7 @@ export class ScormAdapterService {
         console.log(this.dataStore);
       } else if (latestTest.data['cmi_entry'] === 'resume') {
         console.log("resuming test");
-        let parsedSuspendData = JSON.parse(latestTest.data.suspend_data || '{}');
+        let parsedSuspendData = JSON.parse(latestTest.data.suspend_data ?? '{}');
 
         this.dataStore = JSON.parse(JSON.stringify(parsedSuspendData));
 
@@ -132,7 +132,7 @@ export class ScormAdapterService {
   }
 
   isTestCompleted(): boolean {
-    return this.dataStore?.['completed'] || false;
+    return this.dataStore?.['completed'] ?? false;
   }
 
   private resetDataStore() {
@@ -144,7 +144,7 @@ export class ScormAdapterService {
     const examResult = this.dataStore["cmi.score.raw"];
     const status = this.GetValue("cmi.success_status");
     this.dataStore['completed'] = true;
-    const currentAttemptNumber = this.dataStore['attempt_number'] || 0;
+    const currentAttemptNumber = this.dataStore['attempt_number'] ?? 0;
     const ExamName = this.dataStore['name'];
     this.SetValue('cmi.entry', 'RO');
     const cmientry = this.GetValue('cmi.entry');
@@ -177,7 +177,7 @@ export class ScormAdapterService {
   }
 
   GetValue(element: string): string {
-    return this.dataStore[element] || '';
+    return this.dataStore[element] ?? '';
   }
 
   SetValue(element: string, value: any): string {
