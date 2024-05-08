@@ -1,8 +1,9 @@
 import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { alertService, uploadSubmissionModal } from 'src/app/ajs-upgraded-providers';
+import { uploadSubmissionModal } from 'src/app/ajs-upgraded-providers';
 import { Task } from 'src/app/api/models/task';
 import { TaskService } from 'src/app/api/services/task.service';
 import { FileDownloaderService } from 'src/app/common/file-downloader/file-downloader.service';
+import { AlertService } from 'src/app/common/services/alert.service';
 
 @Component({
   selector: 'f-task-submission-card',
@@ -19,7 +20,7 @@ export class TaskSubmissionCardComponent implements OnChanges, OnInit {
   constructor(
     private taskService: TaskService,
     @Inject(uploadSubmissionModal) private UploadSubmissionModal,
-    @Inject(alertService) private AlertService,
+    private alerts: AlertService,
     private fileDownloader: FileDownloaderService
   ) {}
 
@@ -58,18 +59,17 @@ export class TaskSubmissionCardComponent implements OnChanges, OnInit {
     this.task.recreateSubmissionPdf().subscribe({
       next: (response: any) => {
         if (response.result === 'false') {
-          this.AlertService.add('danger', 'There was an error regenerating the PDF', 6000);
+          this.alerts.error('There was an error regenerating the PDF', 6000);
         } else {
           this.task.processingPdf = true;
-          this.AlertService.add(
-            'success',
+          this.alerts.success(
             'The PDF is being regenerated. Please refresh the page in a few minutes.',
             6000
           );
         }
       },
       error: (response: any) => {
-        this.AlertService.add('danger', 'Request failed, cannot recreate PDF at this time.', 6000);
+        this.alerts.error('Request failed, cannot recreate PDF at this time.', 6000);
       },
     });
   }

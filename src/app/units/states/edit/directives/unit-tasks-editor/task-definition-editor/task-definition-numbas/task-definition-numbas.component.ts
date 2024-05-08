@@ -1,6 +1,6 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { alertService } from 'src/app/ajs-upgraded-providers';
+import { AlertService } from 'src/app/common/services/alert.service';
 import { TaskDefinition } from 'src/app/api/models/task-definition';
 import { Unit } from 'src/app/api/models/unit';
 import { TaskDefinitionService } from 'src/app/api/services/task-definition.service';
@@ -16,7 +16,7 @@ export class TaskDefinitionNumbasComponent {
 
   constructor(
     private fileDownloaderService: FileDownloaderService,
-    @Inject(alertService) private alerts: any,
+    private alerts: AlertService,
     private taskDefinitionService: TaskDefinitionService
   ) {}
 
@@ -35,23 +35,25 @@ export class TaskDefinitionNumbasComponent {
 
   public removeNumbasTest() {
     this.taskDefinition.deleteNumbasTest().subscribe({
-      next: () => this.alerts.add('success', 'Deleted Numbas test', 2000),
-      error: (message) => this.alerts.add('danger', message, 6000),
+      next: () => this.alerts.success('Deleted Numbas test', 2000),
+      error: (message) => this.alerts.error(message, 6000),
     });
   }
 
   public uploadNumbasTest(files: FileList) {
     console.log(Array.from(files).map(f => f.type));
     const validMimeTypes = ['application/zip', 'application/x-zip-compressed', 'multipart/x-zip'];
-    const validFiles = Array.from(files as ArrayLike<File>).filter(f => validMimeTypes.includes(f.type));
+    const validFiles = Array.from(files as ArrayLike<File>).filter((f) =>
+      validMimeTypes.includes(f.type),
+    );
     if (validFiles.length > 0) {
       const file = validFiles[0];
       this.taskDefinitionService.uploadNumbasData(this.taskDefinition, file).subscribe({
-        next: () => this.alerts.add('success', 'Uploaded Numbas test data', 2000),
-        error: (message) => this.alerts.add('danger', message, 6000),
+        next: () => this.alerts.success('Uploaded Numbas test data', 2000),
+        error: (message) => this.alerts.error(message, 6000),
       });
     } else {
-      this.alerts.add('danger', 'Please drop a zip file to upload Numbas test data for this task', 6000);
+      this.alerts.error('Please drop a zip file to upload Numbas test data for this task', 6000);
     }
   }
 }

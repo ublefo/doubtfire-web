@@ -18,7 +18,7 @@ angular.module('doubtfire.projects.states.portfolio', [
    }
 )
 
-.controller("ProjectsPortfolioStateCtrl", ($scope, DoubtfireConstants, newTaskService, gradeService, analyticsService, alertService) ->
+.controller("ProjectsPortfolioStateCtrl", ($scope, DoubtfireConstants, newTaskService, gradeService, analyticsService) ->
   #
   # Active task tab group
   #
@@ -63,10 +63,10 @@ angular.module('doubtfire.projects.states.portfolio', [
   $scope.deleteFileFromPortfolio = (file) ->
     $scope.project.deleteFileFromPortfolio(file).subscribe({
       next: (response) ->
-        alertService.add("success", "File removed.", 2000)
+        alertService.success( "File removed.", 2000)
         $scope.project.portfolioFiles.splice
       error: (response) ->
-        alertService.add 'danger', "Error removing file - #{response}"
+        alertService.error "Error removing file - #{response}"
     })
 
   # Update targetGrade value on change
