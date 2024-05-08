@@ -32,6 +32,8 @@ export * from './task-comment/discussion-comment';
 export * from '../services/task-outcome-alignment.service';
 export * from './task-similarity';
 export * from './tii-action';
+export * from './scorm-datamodel';
+export * from './scorm-player-context';
 
 // Users -- are students or staff
 export * from './user/user';

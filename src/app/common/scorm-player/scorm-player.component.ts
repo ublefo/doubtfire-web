@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Task } from 'src/app/api/models/task';
+import { Task, ScormDataModel, ScormPlayerContext } from 'src/app/api/models/doubtfire-model';
 import { ScormAdapterService } from 'src/app/api/services/scorm-adapter.service';
 import { AppInjector } from 'src/app/app-injector';
 import { DoubtfireConstants } from 'src/app/config/constants/doubtfire-constants';
@@ -16,6 +16,8 @@ declare global {
   styleUrls: ['./scorm-player.component.scss'],
 })
 export class ScormPlayerComponent implements OnInit {
+  context: ScormPlayerContext;
+
   task: Task;
   currentMode: 'attempt' | 'review' = 'attempt';
   iframeSrc: SafeResourceUrl;
