@@ -1,12 +1,4 @@
 export class ScormDataModel {
-  initState: {[key: string]: string} = {
-    'cmi.completion_status': 'not attempted',
-    'cmi.entry': 'ab-initio',
-    'cmi.objectives._count': '0',
-    'cmi.interactions._count': '0',
-    'cmi.mode': 'normal',
-  };
-
   dataModel: {[key: string]: any} = {};
   readonly msgPrefix = 'SCORM DataModel: ';
 
@@ -14,17 +6,13 @@ export class ScormDataModel {
     this.dataModel = {};
   }
 
-  public init() {
-    console.log(this.msgPrefix + 'initializing DataModel with default values');
-    this.dataModel = this.initState;
-  }
-
-  public restore(dataModel: {[key: string]: any} = {}) {
+  public restore(dataModel: string) {
     console.log(this.msgPrefix + 'restoring DataModel with provided data');
-    this.dataModel = dataModel;
+    this.dataModel = JSON.parse(dataModel);
   }
 
   public get(key: string): string {
+    // console.log(`SCORM DataModel: get ${key} ${this.dataModel[key]}`);
     return this.dataModel[key] ?? '';
   }
 
@@ -33,23 +21,27 @@ export class ScormDataModel {
   }
 
   public set(key: string, value: any): string {
-    console.log(this.msgPrefix + 'set: ', key, value);
+    // console.log(this.msgPrefix + 'set: ', key, value);
     this.dataModel[key] = value;
     if (key.match('cmi.interactions.\\d+.id')) {
+      // cmi.interactions._count must be incremented after a new interaction is crated
       const interactionPath = key.match('cmi.interactions.\\d+');
       const objectivesCounterForInteraction = interactionPath.toString() + '.objectives._count';
       console.log('Incrementing cmi.interactions._count');
       this.dataModel['cmi.interactions._count']++;
+      // cmi.interactions.n.objectives._count must be initialized after an interaction is created
       console.log(`Initializing ${objectivesCounterForInteraction}`);
       this.dataModel[objectivesCounterForInteraction] = 0;
     }
     if (key.match('cmi.interactions.\\d+.objectives.\\d+.id')) {
       const interactionPath = key.match('cmi.interactions.\\d+.objectives');
       const objectivesCounterForInteraction = interactionPath.toString() + '._count';
+      // cmi.interactions.n.objectives._count must be incremented after objective creation
       console.log(`Incrementing ${objectivesCounterForInteraction}`);
       this.dataModel[objectivesCounterForInteraction.toString()]++;
     }
     if (key.match('cmi.objectives.\\d+.id')) {
+      // cmi.objectives._count must be incremented after a new objective is crated
       console.log('Incrementing cmi.objectives._count');
       this.dataModel['cmi.objectives._count']++;
     }

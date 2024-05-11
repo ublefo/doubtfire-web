@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Task, TaskComment } from 'src/app/api/models/doubtfire-model';
-import { ScormPlayerModal } from 'src/app/common/scorm-player/scorm-player-modal.component';
+import {Component, OnInit, Input} from '@angular/core';
+import {Task, TaskComment} from 'src/app/api/models/doubtfire-model';
+import {ScormPlayerModal} from 'src/app/common/scorm-player/scorm-player-modal.component';
 
 @Component({
   selector: 'numbas-comment',

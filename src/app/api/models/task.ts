@@ -509,7 +509,7 @@ export class Task extends Entity {
 
   public get numbasEnabled(): boolean {
     return (
-      this.definition.hasEnabledNumbasTest && this.definition.hasNumbasData
+      this.definition.scormEnabled && this.definition.hasScormData
     );
   }
 

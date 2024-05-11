@@ -103,10 +103,10 @@ export class TaskDefinitionService extends CachedEntityService<TaskDefinition> {
       'hasTaskSheet',
       'hasTaskResources',
       'hasTaskAssessmentResources',
-      'hasEnabledNumbasTest',
-      'hasNumbasData',
-      'hasNumbasTimeDelay',
-      'numbasAttemptLimit',
+      'scormEnabled',
+      'hasScormData',
+      'scormTimeDelayEnabled',
+      'scormAttemptLimit',
       'isGraded',
       'maxQualityPts',
       'overseerImageId',
@@ -119,7 +119,7 @@ export class TaskDefinitionService extends CachedEntityService<TaskDefinition> {
       'hasTaskSheet',
       'hasTaskResources',
       'hasTaskAssessmentResources',
-      'hasNumbasData'
+      'hasScormData'
     );
   }
 

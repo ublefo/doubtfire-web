@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-4">
-  <mat-checkbox matInput required [(ngModel)]="taskDefinition.hasEnabledNumbasTest">
+  <mat-checkbox matInput required [(ngModel)]="taskDefinition.scormEnabled">
     Enable Numbas Test
   </mat-checkbox>
 
@@ -10,7 +10,7 @@
       accept="application/zip"
       [desiredFileName]="'Numbas zip'"
     />
-    @if (taskDefinition.hasNumbasData) {
+    @if (taskDefinition.hasScormData) {
       <div class="flex flex-row gap-4 pt-4">
         <button mat-flat-button color="warn" (click)="removeNumbasTest()" class="flex-grow me-4">
           Delete Numbas Zip
@@ -22,9 +22,9 @@
     }
   </div>
 
-  @if (taskDefinition.hasEnabledNumbasTest) {
+  @if (taskDefinition.scormEnabled) {
     <div class="flex-grow flex flex-row gap-4 pt-4">
-      <mat-checkbox class="basis-1/2" matInput required [(ngModel)]="taskDefinition.hasNumbasTimeDelay">
+      <mat-checkbox class="basis-1/2" matInput required [(ngModel)]="taskDefinition.scormTimeDelayEnabled">
         Enable incremental time delays between test attempts
       </mat-checkbox>
       <mat-form-field appearance="outline" class="basis-1/2">
@@ -34,7 +34,7 @@
           min="0"
           max="100"
           type="number"
-          [(ngModel)]="taskDefinition.numbasAttemptLimit"
+          [(ngModel)]="taskDefinition.scormAttemptLimit"
           [formControl]="attemptLimitControl"
         />
       </mat-form-field>
