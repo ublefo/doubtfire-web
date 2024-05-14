@@ -129,6 +129,7 @@ export class ScormAdapterService {
     );
     this.xhr.setRequestHeader('Content-Type', 'application/json');
     const requestData = {
+      cmi_datamodel: JSON.stringify(this.dataModel.dump()),
       terminated: true,
     };
     this.xhr.send(JSON.stringify(requestData));
