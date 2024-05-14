@@ -1,5 +1,5 @@
 import {User, UserService} from 'src/app/api/models/doubtfire-model';
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DoubtfireConstants} from 'src/app/config/constants/doubtfire-constants';
 import {StateService, UIRouter, UIRouterGlobals} from '@uirouter/angular';

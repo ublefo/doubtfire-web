@@ -1,4 +1,4 @@
-import {Injectable, Inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DoubtfireConstants} from 'src/app/config/constants/doubtfire-constants';
 import {Observable} from 'rxjs';

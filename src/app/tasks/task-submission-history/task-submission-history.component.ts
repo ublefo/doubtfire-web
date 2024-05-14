@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {TaskSubmissionService} from 'src/app/common/services/task-submission.service';
 import {Subject} from 'rxjs';
 import {OverseerAssessmentService, Task} from 'src/app/api/models/doubtfire-model';

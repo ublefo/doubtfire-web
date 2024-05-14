@@ -1,4 +1,4 @@
-import { Component, Input, Inject, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TaskStatus, TaskStatusEnum } from 'src/app/api/models/task-status';
 
 @Component({

@@ -2,7 +2,6 @@ import { AppInjector } from 'src/app/app-injector';
 import { Entity } from 'ngx-entity-service';
 import { Project, Task, TaskCommentService, User } from 'src/app/api/models/doubtfire-model';
 import { UserService } from '../../services/user.service';
-import API_URL from 'src/app/config/constants/apiURL';
 import { DoubtfireConstants } from 'src/app/config/constants/doubtfire-constants';
 import { AlertService } from 'src/app/common/services/alert.service';
 

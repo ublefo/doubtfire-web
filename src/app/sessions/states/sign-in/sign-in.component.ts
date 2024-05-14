@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StateService, Transition } from '@uirouter/core';
 import { AuthenticationService } from 'src/app/api/services/authentication.service';
 import { AlertService } from 'src/app/common/services/alert.service';

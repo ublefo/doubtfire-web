@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Webcal } from '../models/webcal/webcal';
-import { Entity, EntityService } from 'ngx-entity-service';
+import { EntityService } from 'ngx-entity-service';
 import { HttpClient } from '@angular/common/http';
 import API_URL from 'src/app/config/constants/apiURL';
 

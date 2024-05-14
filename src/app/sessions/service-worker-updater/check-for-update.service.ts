@@ -1,9 +1,6 @@
 import { ApplicationRef, Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { interval } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { delay } from 'rxjs/operators';
-import { concat } from 'rxjs';
 
 @Injectable()
 export class CheckForUpdateService {
