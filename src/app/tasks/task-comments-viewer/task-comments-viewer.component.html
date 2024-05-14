@@ -85,12 +85,12 @@
                 ></app-task-assessment-comment>
               </div>
 
-              <div *ngSwitchCase="'numbas'" class="comment-scorm">
-                <numbas-comment
+              <div *ngSwitchCase="'scorm'" class="comment-scorm">
+                <scorm-comment
                   [task]="task"
                   [comment]="comment"
-                  *ngIf="numbasEnabled"
-                ></numbas-comment>
+                  *ngIf="scormEnabled"
+                ></scorm-comment>
               </div>
 
               <div class="bubble" [ngClass]="commentClasses(comment)">

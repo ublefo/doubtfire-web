@@ -1,22 +1,22 @@
 <div class="flex flex-col gap-4">
   <mat-checkbox matInput required [(ngModel)]="taskDefinition.scormEnabled">
-    Enable Numbas Test
+    Enable test for task
   </mat-checkbox>
 
   <div class="basis-1/2 flex flex-col">
     <f-file-drop
       mode="event"
-      (filesDropped)="uploadNumbasTest($event)"
+      (filesDropped)="uploadScormData($event)"
       accept="application/zip"
-      [desiredFileName]="'Numbas zip'"
+      [desiredFileName]="'SCORM zip'"
     />
     @if (taskDefinition.hasScormData) {
       <div class="flex flex-row gap-4 pt-4">
-        <button mat-flat-button color="warn" (click)="removeNumbasTest()" class="flex-grow me-4">
-          Delete Numbas Zip
+        <button mat-flat-button color="warn" (click)="removeScormData()" class="flex-grow me-4">
+          Delete SCORM Zip
         </button>
-        <button mat-flat-button color="accent" (click)="downloadNumbasTest()" class="flex-grow ms-4">
-          Download Numbas Zip
+        <button mat-flat-button color="accent" (click)="downloadScormData()" class="flex-grow ms-4">
+          Download SCORM Zip
         </button>
       </div>
     }

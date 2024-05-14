@@ -507,7 +507,7 @@ export class Task extends Entity {
     );
   }
 
-  public get numbasEnabled(): boolean {
+  public get scormEnabled(): boolean {
     return (
       this.definition.scormEnabled && this.definition.hasScormData
     );

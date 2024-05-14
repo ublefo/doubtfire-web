@@ -206,7 +206,7 @@ import {TaskDefinitionUploadComponent} from './units/states/edit/directives/unit
 import {TaskDefinitionOptionsComponent} from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-options/task-definition-options.component';
 import {TaskDefinitionResourcesComponent} from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-resources/task-definition-resources.component';
 import {TaskDefinitionOverseerComponent} from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-overseer/task-definition-overseer.component';
-import {TaskDefinitionNumbasComponent} from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-numbas/task-definition-numbas.component';
+import {TaskDefinitionScormComponent} from './units/states/edit/directives/unit-tasks-editor/task-definition-editor/task-definition-scorm/task-definition-scorm.component';
 import {UnitAnalyticsComponent} from './units/states/analytics/unit-analytics-route.component';
 import {FileDropComponent} from './common/file-drop/file-drop.component';
 import {UnitTaskEditorComponent} from './units/states/edit/directives/unit-tasks-editor/unit-task-editor.component';
@@ -233,7 +233,7 @@ import {FTaskSheetViewComponent} from './units/states/tasks/viewer/directives/f-
 import {TasksViewerComponent} from './units/states/tasks/tasks-viewer/tasks-viewer.component';
 import {ScormPlayerComponent} from './common/scorm-player/scorm-player.component';
 import {ScormAdapterService} from './api/services/scorm-adapter.service';
-import {NumbasCommentComponent} from './tasks/task-comments-viewer/numbas-comment/numbas-comment.component';
+import {ScormCommentComponent} from './tasks/task-comments-viewer/scorm-comment/scorm-comment.component';
 import {TestAttemptService} from './api/services/test-attempt.service';
 
 @NgModule({
@@ -273,7 +273,7 @@ import {TestAttemptService} from './api/services/test-attempt.service';
     TaskDefinitionOptionsComponent,
     TaskDefinitionResourcesComponent,
     TaskDefinitionOverseerComponent,
-    TaskDefinitionNumbasComponent,
+    TaskDefinitionScormComponent,
     UnitAnalyticsComponent,
     StudentTutorialSelectComponent,
     StudentCampusSelectComponent,
@@ -336,7 +336,7 @@ import {TestAttemptService} from './api/services/test-attempt.service';
     FTaskBadgeComponent,
     FUnitsComponent,
     ScormPlayerComponent,
-    NumbasCommentComponent,
+    ScormCommentComponent,
   ],
   // Services we provide
   providers: [

@@ -7,11 +7,11 @@ import { TaskDefinitionService } from 'src/app/api/services/task-definition.serv
 import { FileDownloaderService } from 'src/app/common/file-downloader/file-downloader.service';
 
 @Component({
-  selector: 'f-task-definition-numbas',
-  templateUrl: 'task-definition-numbas.component.html',
-  styleUrls: ['task-definition-numbas.component.scss'],
+  selector: 'f-task-definition-scorm',
+  templateUrl: 'task-definition-scorm.component.html',
+  styleUrls: ['task-definition-scorm.component.scss'],
 })
-export class TaskDefinitionNumbasComponent {
+export class TaskDefinitionScormComponent {
   @Input() taskDefinition: TaskDefinition;
 
   constructor(
@@ -26,21 +26,21 @@ export class TaskDefinitionNumbasComponent {
     return this.taskDefinition?.unit;
   }
 
-  public downloadNumbasTest() {
+  public downloadScormData() {
     this.fileDownloaderService.downloadFile(
-      this.taskDefinition.getNumbasTestUrl(true),
-      this.taskDefinition.name + '-Numbas.zip',
+      this.taskDefinition.getScormDataUrl(true),
+      this.taskDefinition.name + '-SCORM.zip',
     );
   }
 
-  public removeNumbasTest() {
-    this.taskDefinition.deleteNumbasTest().subscribe({
-      next: () => this.alerts.success('Deleted Numbas test', 2000),
+  public removeScormData() {
+    this.taskDefinition.deleteScormData().subscribe({
+      next: () => this.alerts.success('Deleted SCORM test data', 2000),
       error: (message) => this.alerts.error(message, 6000),
     });
   }
 
-  public uploadNumbasTest(files: FileList) {
+  public uploadScormData(files: FileList) {
     console.log(Array.from(files).map(f => f.type));
     const validMimeTypes = ['application/zip', 'application/x-zip-compressed', 'multipart/x-zip'];
     const validFiles = Array.from(files as ArrayLike<File>).filter((f) =>
@@ -48,12 +48,12 @@ export class TaskDefinitionNumbasComponent {
     );
     if (validFiles.length > 0) {
       const file = validFiles[0];
-      this.taskDefinitionService.uploadNumbasData(this.taskDefinition, file).subscribe({
-        next: () => this.alerts.success('Uploaded Numbas test data', 2000),
+      this.taskDefinitionService.uploadScormData(this.taskDefinition, file).subscribe({
+        next: () => this.alerts.success('Uploaded SCORM test data', 2000),
         error: (message) => this.alerts.error(message, 6000),
       });
     } else {
-      this.alerts.error('Please drop a zip file to upload Numbas test data for this task', 6000);
+      this.alerts.error('Please drop a zip file to upload SCORM test data for this task', 6000);
     }
   }
 }

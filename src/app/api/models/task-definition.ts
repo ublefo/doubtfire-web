@@ -154,7 +154,7 @@ export class TaskDefinition extends Entity {
     }`;
   }
 
-  public getNumbasTestUrl(asAttachment: boolean = false) {
+  public getScormDataUrl(asAttachment: boolean = false) {
     const constants = AppInjector.get(DoubtfireConstants);
     return `${constants.API_URL}/units/${this.unit.id}/task_definitions/${this.id}/scorm_data.json${
       asAttachment ? '?as_attachment=true' : ''
@@ -185,7 +185,7 @@ export class TaskDefinition extends Entity {
     }/task_resources`;
   }
 
-  public get numbasTestUploadUrl(): string {
+  public get scormDataUploadUrl(): string {
     return `${AppInjector.get(DoubtfireConstants).API_URL}/units/${this.unit.id}/task_definitions/${
       this.id
     }/scorm_data`;
@@ -213,9 +213,9 @@ export class TaskDefinition extends Entity {
     return httpClient.delete(this.taskResourcesUploadUrl).pipe(tap(() => (this.hasTaskResources = false)));
   }
 
-  public deleteNumbasTest(): Observable<any> {
+  public deleteScormData(): Observable<any> {
     const httpClient = AppInjector.get(HttpClient);
-    return httpClient.delete(this.numbasTestUploadUrl).pipe(tap(() => (this.hasScormData = false)));
+    return httpClient.delete(this.scormDataUploadUrl).pipe(tap(() => (this.hasScormData = false)));
   }
 
   public deleteTaskAssessmentResources(): Observable<any> {

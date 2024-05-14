@@ -3,11 +3,11 @@ import {Task, TaskComment} from 'src/app/api/models/doubtfire-model';
 import {ScormPlayerModal} from 'src/app/common/scorm-player/scorm-player-modal.component';
 
 @Component({
-  selector: 'numbas-comment',
-  templateUrl: './numbas-comment.component.html',
-  styleUrls: ['./numbas-comment.component.scss'],
+  selector: 'scorm-comment',
+  templateUrl: './scorm-comment.component.html',
+  styleUrls: ['./scorm-comment.component.scss'],
 })
-export class NumbasCommentComponent implements OnInit {
+export class ScormCommentComponent implements OnInit {
   @Input() task: Task;
   @Input() comment: TaskComment;
 
@@ -15,7 +15,7 @@ export class NumbasCommentComponent implements OnInit {
 
   ngOnInit() {}
 
-  reviewNumbasTest() {
+  reviewScormTest() {
     this.modalService.show(this.task, 'review');
   }
 }

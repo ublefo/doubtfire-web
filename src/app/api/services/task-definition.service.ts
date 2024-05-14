@@ -145,9 +145,9 @@ export class TaskDefinitionService extends CachedEntityService<TaskDefinition> {
     return AppInjector.get(HttpClient).post<boolean>(taskDefinition.taskAssessmentResourcesUploadUrl, formData);
   }
 
-  public uploadNumbasData(taskDefinition: TaskDefinition, file: File): Observable<boolean> {
+  public uploadScormData(taskDefinition: TaskDefinition, file: File): Observable<boolean> {
     const formData = new FormData();
     formData.append('file', file);
-    return AppInjector.get(HttpClient).post<boolean>(taskDefinition.numbasTestUploadUrl, formData);
+    return AppInjector.get(HttpClient).post<boolean>(taskDefinition.scormDataUploadUrl, formData);
   }
 }

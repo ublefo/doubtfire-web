@@ -9,7 +9,7 @@ import {Task} from 'src/app/api/models/task';
 export class ScormPlayerModal {
   constructor(public dialog: MatDialog) {}
 
-  public show(task: Task, mode: 'attempt' | 'review'): void {
+  public show(task: Task, mode: 'browse' | 'normal' | 'review'): void {
     let dialogRef: MatDialogRef<ScormPlayerComponent, any>;
 
     dialogRef = this.dialog.open(ScormPlayerComponent, {

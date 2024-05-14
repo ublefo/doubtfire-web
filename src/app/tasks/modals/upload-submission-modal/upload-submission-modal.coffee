@@ -157,7 +157,7 @@ angular.module('doubtfire.tasks.modals.upload-submission-modal', [])
 
   $scope.launchScormPlayer = ->
     console.clear()
-    ScormPlayerModal.show $scope.task, 'attempt'
+    ScormPlayerModal.show $scope.task, 'normal'
 
   # Whether or not we should disable this button
   $scope.shouldDisableBtn = {

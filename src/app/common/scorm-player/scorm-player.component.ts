@@ -21,12 +21,12 @@ export class ScormPlayerComponent implements OnInit {
   context: ScormPlayerContext;
 
   task: Task;
-  currentMode: 'attempt' | 'review' = 'attempt';
+  currentMode: 'browse' | 'normal' | 'review' = 'normal';
   iframeSrc: SafeResourceUrl;
 
   constructor(
     private dialogRef: MatDialogRef<ScormPlayerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {task: Task; mode: 'attempt' | 'review'},
+    @Inject(MAT_DIALOG_DATA) public data: {task: Task, mode: 'browse' | 'normal' | 'review'},
     private scormAdapter: ScormAdapterService,
     private sanitizer: DomSanitizer,
   ) {}
