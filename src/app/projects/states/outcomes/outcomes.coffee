@@ -16,7 +16,7 @@ angular.module('doubtfire.projects.states.outcomes', [])
    }
 )
 
-.controller("LearningOutcomesStateCtrl", ($scope, $rootScope, $timeout, outcomeService, newUnitService, Visualisation) ->
+.controller("LearningOutcomesStateCtrl", ($scope, $rootScope, $timeout, alertService, outcomeService, newUnitService, Visualisation) ->
   $scope.poaView = {
     activeTab: 'list'
   }

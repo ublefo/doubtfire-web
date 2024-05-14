@@ -14,7 +14,7 @@ angular.module('doubtfire.units.states.rollover', [
       roleWhitelist: ['Convenor', 'Admin']
    }
 )
-.controller("RolloverUnitState", ($scope, $state, $stateParams, newUnitService, GlobalStateService) ->
+.controller("RolloverUnitState", ($scope, $state, $stateParams, newUserService, alertService, newUnitService, GlobalStateService) ->
   unitId = +$stateParams.unitId
   return $state.go('home') unless unitId
 

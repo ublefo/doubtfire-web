@@ -21,7 +21,7 @@ angular.module('doubtfire.tasks.task-ilo-alignment.modals.task-ilo-alignment-mod
   TaskILOAlignmentModal
 )
 
-.controller('TaskILOAlignmentModalCtrl', ($scope, $rootScope, $modalInstance, newTaskOutcomeAlignmentService, task, ilo, alignment, unit, project, source) ->
+.controller('TaskILOAlignmentModalCtrl', ($scope, $rootScope, $modalInstance, alertService, newTaskOutcomeAlignmentService, task, ilo, alignment, unit, project, source) ->
   $scope.source = source
   $scope.unit = unit
   $scope.task = task

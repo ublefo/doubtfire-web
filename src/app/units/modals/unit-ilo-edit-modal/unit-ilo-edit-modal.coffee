@@ -20,7 +20,7 @@ angular.module('doubtfire.units.modals.unit-ilo-edit-modal', [])
 
   UnitILOEditModalCtrl
 )
-.controller('UnitILOEditModalCtrl', ($scope, $modalInstance, ilo, unit, newLearningOutcomeService) ->
+.controller('UnitILOEditModalCtrl', ($scope, $modalInstance, alertService, ilo, unit, newLearningOutcomeService) ->
   prototypeIlo = { name: null, description: null, abbreviation: null }
   $scope.ilo = ilo or prototypeIlo
   $scope.isNew = !ilo?

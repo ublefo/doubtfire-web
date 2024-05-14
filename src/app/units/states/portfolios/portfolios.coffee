@@ -14,7 +14,7 @@ angular.module('doubtfire.units.states.portfolios', [])
       roleWhitelist: ['Tutor', 'Convenor', 'Admin']
    }
 )
-.controller("UnitPortfoliosStateCtrl", ($scope, analyticsService, gradeService, newProjectService, Visualisation, newTaskService, fileDownloaderService, newUserService) ->
+.controller("UnitPortfoliosStateCtrl", ($scope, alertService, analyticsService, gradeService, newProjectService, Visualisation, newTaskService, fileDownloaderService, newUserService) ->
   # TODO: (@alexcu) Break this down into smaller directives/substates
 
   $scope.downloadGrades = -> fileDownloaderService.downloadFile($scope.unit.gradesUrl, "#{$scope.unit.code}-grades.csv")

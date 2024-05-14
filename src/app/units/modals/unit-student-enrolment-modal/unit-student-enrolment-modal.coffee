@@ -16,7 +16,7 @@ angular.module('doubtfire.units.modals.unit-student-enrolment-modal', [])
 
   UnitStudentEnrolmentModal
 )
-.controller('UnitStudentEnrolmentModalCtrl', ($scope, $modalInstance, unit, campusService, newProjectService) ->
+.controller('UnitStudentEnrolmentModalCtrl', ($scope, $modalInstance, alertService, newUserService, unit, campusService, newProjectService) ->
   $scope.unit = unit
   $scope.projects = unit.students
   $scope.campuses = []

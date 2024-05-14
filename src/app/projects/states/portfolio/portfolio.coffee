@@ -18,7 +18,7 @@ angular.module('doubtfire.projects.states.portfolio', [
    }
 )
 
-.controller("ProjectsPortfolioStateCtrl", ($scope, DoubtfireConstants, newTaskService, gradeService, analyticsService) ->
+.controller("ProjectsPortfolioStateCtrl", ($scope, alertService, DoubtfireConstants, newTaskService, gradeService, analyticsService) ->
   #
   # Active task tab group
   #
